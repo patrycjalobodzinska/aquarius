@@ -4,9 +4,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Float, MeshDistortMaterial } from "@react-three/drei";
 import { Suspense, useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
-// Zachowane komponenty „podłóg" gotowe do wrzucenia z powrotem:
-// import Water from "./Water"; // GPGPU wodna symulacja (Water.tsx + WaterShaders.ts)
-// import ReflectorFloor from "./ReflectorFloor"; // proste lustro z drei
 
 function dropGeometry() {
   // 64×64 = ~4k wierzchołków zamiast 128×128 (~16k). Wizualnie identyczne dla

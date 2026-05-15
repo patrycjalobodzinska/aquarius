@@ -3,11 +3,6 @@
 import Lenis from "lenis";
 import { useEffect } from "react";
 
-/**
- * Lenis smooth scroll wrapper. Przejmuje zdarzenia kółka i tworzy
- * łagodny easing scrolla. Kompatybilne z window.scrollY (ScrollWaterDrop dalej
- * czyta `window.scrollY` i aktualizuje pozycję kropli - tyle że teraz płynnie).
- */
 export default function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
