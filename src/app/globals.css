@@ -8,8 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-questrial), ui-sans-serif, system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +18,60 @@
   }
 }
 
+html {
+  /* Rezerwuje miejsce na scrollbara nawet gdy go nie ma (np. podczas blokady
+     scrolla w hero). Zapobiega layout-shiftowi przy pojawianiu/znikaniu paska. */
+  scrollbar-gutter: stable;
+  /* Globalny offset na fixed-header (h-16 = 64px) + oddech, żeby natywne skoki
+     do #id i scrollIntoView nie chowały tytułów sekcji pod paskiem. */
+  scroll-padding-top: 150px;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-questrial), ui-sans-serif, system-ui, sans-serif;
 }
+
+/* View Transitions API - reszta strony delikatnie przejmuje ze shared hero (Chrome 124+) */
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.38s;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Subtelne pulsowanie atmosferycznego glow-a w hero dopóki kropla się ładuje. */
+@keyframes hero-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: translateY(-4vh) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4vh) scale(1.05);
+  }
+}
+.hero-glow-pulse {
+  animation: hero-glow-pulse 2.4s ease-in-out infinite;
+}
+
+/* Bouncing-dot loader dla hero — 3 kropki podskakują z opóźnieniami. */
+@keyframes hero-loader-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+.hero-loader-dot {
+  animation: hero-loader-bounce 1s ease-in-out infinite;
+}
+

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <defs>
+    <linearGradient id="favicon-drop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e0f2fe" />
+      <stop offset="45%" stop-color="#7dd3fc" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+    <radialGradient id="favicon-hi" cx="35%" cy="30%" r="25%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.95)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </radialGradient>
+  </defs>
+  <path
+    d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z"
+    fill="url(#favicon-drop)"
+  />
+  <ellipse cx="9" cy="9" rx="2" ry="3" fill="url(#favicon-hi)" />
+</svg>
