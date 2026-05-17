@@ -3,9 +3,9 @@
 import Image from "next/image";
 import { useState } from "react";
 
-// Wspólny endpoint dla całej strony — taki sam jak w ProductDetailHero.
-// Wystarczy ustawić NEXT_PUBLIC_CONTACT_ENDPOINT w .env (np. URL Formspree).
-const FORM_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT || "";
+const FORM_ENDPOINT =
+  process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ||
+  "https://formspree.io/f/xzdwpnqr";
 
 export default function ContactSection() {
   const [sent, setSent] = useState(false);
