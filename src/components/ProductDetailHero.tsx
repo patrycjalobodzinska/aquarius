@@ -6,12 +6,9 @@ import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { categories, formatPrice, type Product } from "@/lib/products";
 import { productHeroViewTransitionName } from "@/lib/productViewTransition";
 
-// Pojedynczy endpoint — wystarczy ustawić jedną zmienną. Każde zgłoszenie z
-// formularza produktowego wysyła dodatkowe pola `product`/`category` (oraz
-// `_subject` do Formspree), żeby zespół wiedział czego dotyczy.
 const FORM_ENDPOINT =
-  process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ||
-  "https://formspree.io/f/xzdwpnqr";
+  process.env.NEXT_PUBLIC_PRODUCT_ENDPOINT ||
+  "https://formspree.io/f/mlgvrqyg";
 
 export default function ProductDetailHero({ product }: { product: Product }) {
   const [active, setActive] = useState(0);
