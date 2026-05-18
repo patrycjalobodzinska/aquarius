@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef, useState } from "react";
-import FeatureBadge from "./FeatureBadge";
+import HeroSideBadges from "./HeroSideBadges";
 import FeaturesSketch from "./FeaturesSketch";
 import MineralsSection from "./MineralsSection";
 import BeforeAfterArc from "./BeforeAfterArc";
@@ -261,34 +261,7 @@ export default function Landing() {
           <HeroScene onReady={handleHeroReady} />
         </div>
 
-        {/* BADGE'Y - wjeżdżają zsynchronizowane z kroplą (heroReady = env-mapa
-            gotowa). Stagger między 1. a 2. badgem przez transition-delay. */}
-        <div
-          ref={heroBadgesRef}
-          className="pointer-events-none absolute right-[14%] top-1/2 z-20 -translate-y-1/2 flex flex-col gap-6 will-change-[opacity,transform,filter] md:right-[18%]">
-          <div
-            className="transition-all duration-700 ease-out"
-            style={{
-              opacity: badgesVisible ? 1 : 0,
-              transform: badgesVisible
-                ? "translateX(0) scale(1)"
-                : "translateX(40px) scale(0.92)",
-              transitionDelay: badgesVisible ? "0s" : "0s",
-            }}>
-            <FeatureBadge label={["CZYSTA", "W 99.9%"]} iconType="drop" />
-          </div>
-          <div
-            className="transition-all duration-700 ease-out"
-            style={{
-              opacity: badgesVisible ? 1 : 0,
-              transform: badgesVisible
-                ? "translateX(0) scale(1)"
-                : "translateX(40px) scale(0.92)",
-              transitionDelay: badgesVisible ? "0.18s" : "0s",
-            }}>
-            <FeatureBadge label={["FILTR RO", "5 STOPNI"]} iconType="filter" />
-          </div>
-        </div>
+        <HeroSideBadges ref={heroBadgesRef} visible={badgesVisible} />
 
         <div
           ref={heroTextRef}
