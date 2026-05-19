@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { products } from "@/lib/products";
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.pl";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.craftedweb.pl";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

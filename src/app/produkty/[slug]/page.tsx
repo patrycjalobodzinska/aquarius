@@ -78,7 +78,7 @@ export default async function ProductPage({
   const related = getRelated(product, 4);
 
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.pl";
+    process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.craftedweb.pl";
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",

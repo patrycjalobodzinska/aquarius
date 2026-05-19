@@ -10,7 +10,7 @@ const questrial = Questrial({
 });
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.pl";
+  process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.craftedweb.pl";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
