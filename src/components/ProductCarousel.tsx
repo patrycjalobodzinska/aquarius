@@ -30,11 +30,26 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
 
   const n = items.length;
 
+  // Na mobile rezygnujemy z nieskończonej pętli (3× lista + loop-jump przy
+  // krawędzi) - na touch-snap-mandatory powodowało to dziwne "cofanie" scrolla.
+  // Mobile: jedna lista, linearny scroll. Desktop: pętla.
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+
   const looped = useMemo((): LoopEntry[] => {
     if (n === 0) return [];
-    if (n === 1) {
-      const product = items[0];
-      return [{ product, segment: 1, reactKey: `1-${product.slug}-0` }];
+    if (n === 1 || isMobile) {
+      return items.map((product, i) => ({
+        product,
+        segment: 1,
+        reactKey: `1-${product.slug}-${i}`,
+      }));
     }
     const block = (seg: 0 | 1 | 2): LoopEntry[] =>
       items.map((product, i) => ({
@@ -43,10 +58,10 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
         reactKey: `${seg}-${product.slug}-${i}`,
       }));
     return [...block(0), ...block(1), ...block(2)];
-  }, [items, n]);
+  }, [items, n, isMobile]);
 
   /** Indeks pierwszej karty środkowego segmentu (tam ustawiamy start scrolla). */
-  const midStartIndex = n >= 2 ? n : 0;
+  const midStartIndex = n >= 2 && !isMobile ? n : 0;
 
   const setters = useRef<
     Array<{
@@ -114,11 +129,21 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
 
       const s = setters.current[i];
       if (!s) return;
-      s.scale(1.12 - 0.42 * abs);
-      s.rotY(clamped * -32);
-      s.z(-220 * abs);
-      s.opacity(1 - 0.55 * abs);
-      s.blur(abs * 4);
+      if (isMobile) {
+        // Mobile: tylko scale + opacity, BEZ rotY i z-translate. Te 3D-transformy
+        // pod palcem mieszały się z momentum-scrollem iOS dając "szarpanie".
+        s.scale(1 - 0.12 * abs);
+        s.rotY(0);
+        s.z(0);
+        s.opacity(1 - 0.35 * abs);
+        s.blur(abs * 2);
+      } else {
+        s.scale(1.12 - 0.42 * abs);
+        s.rotY(clamped * -32);
+        s.z(-220 * abs);
+        s.opacity(1 - 0.55 * abs);
+        s.blur(abs * 4);
+      }
       el.style.zIndex = String(Math.round(100 - abs * 60));
     });
 
@@ -129,7 +154,7 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
       setCanPrev(true);
       setCanNext(true);
     }
-  }, [n]);
+  }, [n, isMobile]);
 
   const measureSegment = useCallback(() => {
     const track = trackRef.current;
@@ -144,12 +169,16 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
     const track = trackRef.current;
     const card = cardRefs.current[midStartIndex];
     if (!track || !card || n < 2) return;
+    // Mobile: centruj pierwszą kartę, nie rób żadnej pętli (midStartIndex=0).
+    // Desktop: pętla 3× lista, start w środkowym segmencie.
     track.scrollLeft =
       card.offsetLeft - (track.clientWidth - card.offsetWidth) / 2;
-    segmentWidthRef.current =
-      cardRefs.current[midStartIndex]!.offsetLeft -
-      cardRefs.current[0]!.offsetLeft;
-  }, [n, midStartIndex]);
+    if (!isMobile) {
+      segmentWidthRef.current =
+        cardRefs.current[midStartIndex]!.offsetLeft -
+        cardRefs.current[0]!.offsetLeft;
+    }
+  }, [n, midStartIndex, isMobile]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -216,8 +245,10 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
       <div className="relative" style={{ perspective: "1200px" }}>
         <div
           ref={trackRef}
-          className="product-carousel-track flex snap-x snap-mandatory gap-8 overflow-x-auto scroll-smooth lg:pb-16 lg:pt-12 [scrollbar-width:none] md:gap-10 [&::-webkit-scrollbar]:hidden"
-          style={{ touchAction: "pan-y" }}>
+          data-lenis-prevent
+          data-lenis-prevent-touch
+          data-lenis-prevent-wheel
+          className="product-carousel-track flex snap-x snap-proximity gap-1 overflow-x-auto overscroll-x-contain px-[16vw] pb-12 pt-4 [scrollbar-width:none] md:snap-mandatory md:gap-10 md:scroll-smooth md:px-0 lg:pb-16 lg:pt-12 [&::-webkit-scrollbar]:hidden">
           {looped.map((entry, i) => {
             const p = entry.product;
             const href = `/produkty/${p.slug}`;
@@ -244,7 +275,7 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
                     router.push(href),
                   );
                 }}
-                className="group relative flex w-[72%] shrink-0 snap-center flex-col overflow-hidden rounded-3xl border border-sky-100 bg-white shadow-[0_30px_70px_-30px_rgba(15,23,42,0.35)] transition-shadow sm:w-[42%] lg:w-[30%] xl:w-[24%]"
+                className="group relative flex w-[68vw] shrink-0 snap-center flex-col overflow-hidden rounded-3xl border border-sky-100 bg-white shadow-[0_30px_70px_-30px_rgba(15,23,42,0.35)] transition-shadow sm:w-[42%] lg:w-[30%] xl:w-[24%]"
                 style={{
                   filter: "blur(var(--card-blur, 0px))",
                   willChange: "transform, opacity, filter",

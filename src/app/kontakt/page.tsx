@@ -26,14 +26,14 @@ const channels: {
 }[] = [
   {
     label: "Telefon",
-    value: "+48 22 000 00 00",
-    href: "tel:+48220000000",
+    value: "+48 513 001 600",
+    href: "tel:+48513001600",
     note: "Pon–Pt 8:00–18:00, Sob 9:00–14:00",
   },
   {
     label: "E-mail",
-    value: "kontakt@aquarius.pl",
-    href: "mailto:kontakt@aquarius.pl",
+    value: "januszlobodzinski.rzeszow70@gmail.com",
+    href: "mailto:januszlobodzinski.rzeszow70@gmail.com",
     note: "Odpowiadamy do końca dnia roboczego",
   },
 ];

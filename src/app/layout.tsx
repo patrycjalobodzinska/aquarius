@@ -109,8 +109,8 @@ const organizationJsonLd = {
   name: "Aquarius",
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
-  email: "kontakt@aquarius.pl",
-  telephone: "+48 22 000 00 00",
+  email: "januszlobodzinski.rzeszow70@gmail.com",
+  telephone: "+48 513 001 600",
   areaServed: "PL",
   sameAs: [] as string[],
 };

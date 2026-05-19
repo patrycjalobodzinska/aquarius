@@ -31,6 +31,21 @@ export default function SiteFooter() {
                 Wszystkie produkty
               </Link>
             </li>
+          </ul>
+        </div>
+        <div>
+          <div className="mb-3 text-sm font-medium text-blue-950">Strona</div>
+          <ul className="space-y-2 text-sm text-slate-600">
+            <li>
+              <Link href="/#problemy" className="hover:text-blue-700">
+                Problemy z wodą
+              </Link>
+            </li>
+            <li>
+              <Link href="/#zmiekczanie" className="hover:text-blue-700">
+                Jak działa zmiękczanie
+              </Link>
+            </li>
             <li>
               <Link href="/kontakt" className="hover:text-blue-700">
                 Kontakt
@@ -39,43 +54,18 @@ export default function SiteFooter() {
           </ul>
         </div>
         <div>
-          <div className="mb-3 text-sm font-medium text-blue-950">Pomoc</div>
-          <ul className="space-y-2 text-sm text-slate-600">
-            <li>
-              <a href="#" className="hover:text-blue-700">
-                Jak zamontować
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-700">
-                Serwis
-              </a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-blue-700">
-                Gwarancja
-              </a>
-            </li>
-            <li>
-              <a href="#" id="faq" className="hover:text-blue-700">
-                FAQ
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div>
           <div className="mb-3 text-sm font-medium text-blue-950">Kontakt</div>
           <ul className="space-y-2 text-sm text-slate-600">
             <li>
               <a
-                href="mailto:kontakt@aquarius.pl"
-                className="hover:text-blue-700">
-                kontakt@aquarius.pl
+                href="mailto:januszlobodzinski.rzeszow70@gmail.com"
+                className="hover:text-blue-700 break-all">
+                januszlobodzinski.rzeszow70@gmail.com
               </a>
             </li>
             <li>
-              <a href="tel:+48220000000" className="hover:text-blue-700">
-                +48 22 000 00 00
+              <a href="tel:+48513001600" className="hover:text-blue-700">
+                +48 513 001 600
               </a>
             </li>
           </ul>

@@ -32,7 +32,7 @@ const HeroSideBadges = forwardRef<HTMLDivElement, { visible?: boolean }>(
     return (
     <div
       ref={ref}
-      className="pointer-events-none absolute right-[14%] top-1/2 z-20 -translate-y-1/2 flex flex-col gap-6 will-change-[opacity,transform,filter] md:right-[18%]">
+      className="pointer-events-none absolute bottom-12 left-1/2 z-20 flex -translate-x-1/2 flex-row gap-8 will-change-[opacity,transform,filter] md:bottom-auto md:left-auto md:right-[18%] md:top-1/2 md:flex-col md:gap-6 md:-translate-x-0 md:-translate-y-1/2">
       {ITEMS.map((item, i) => (
         <div
           key={item.iconType}
@@ -40,8 +40,8 @@ const HeroSideBadges = forwardRef<HTMLDivElement, { visible?: boolean }>(
           style={{
             opacity: visible ? 1 : 0,
             transform: visible
-              ? "translateX(0) scale(1)"
-              : "translateX(40px) scale(0.92)",
+              ? "translateY(0) scale(1)"
+              : "translateY(20px) scale(0.92)",
             transitionDelay: visible ? `${i * 0.18}s` : "0s",
           }}>
           <ShinyBadge item={item} index={i} />

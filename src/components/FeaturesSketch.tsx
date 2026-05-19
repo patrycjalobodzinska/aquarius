@@ -16,6 +16,21 @@ export default function FeaturesSketch() {
   const imgRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Mobile: brak animacji draw/erase, brak fixed SVG-overlaya. Tekst i obraz
+    // wyświetlają się od razu, sekcja stackuje się normalnie.
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    if (!isDesktop) {
+      if (textRef.current) {
+        textRef.current.style.opacity = "1";
+        textRef.current.style.transform = "none";
+      }
+      if (imgRef.current) {
+        imgRef.current.style.opacity = "1";
+        imgRef.current.style.transform = "none";
+      }
+      return;
+    }
+
     let tl: gsap.core.Timeline | null = null;
 
     const setup = () => {
@@ -49,10 +64,8 @@ export default function FeaturesSketch() {
           trigger: section,
           start: "top bottom",
           end: "bottom top",
-          scrub: 0.3,
+          scrub: 1.5,
           invalidateOnRefresh: true,
-          // Twardy reset opacity poza zakresem - żeby scrub-lag nigdy nie
-          // zostawił rozmytego śladu na sekcjach poniżej.
           onLeave: () => {
             if (svgWrap) gsap.set(svgWrap, { opacity: 0 });
           },
@@ -62,65 +75,57 @@ export default function FeaturesSketch() {
         },
       });
 
-      // 0 → 0.06: wrapper SVG fade-in.
       tl.fromTo(
         svgWrap,
         { opacity: 0 },
-        { opacity: 1, ease: "none", duration: 0.06 },
+        { opacity: 1, ease: "none", duration: 0.04 },
         0,
       );
 
-      // 0 → 0.25: DRAW path 1 od lewej do prawej.
-      tl.to(path, { strokeDashoffset: 0, ease: "none", duration: 0.25 }, 0);
+      // DRAW path 1 — long, slow stroke.
+      tl.to(path, { strokeDashoffset: 0, ease: "none", duration: 0.42 }, 0);
 
-      // 0.05 → 0.25: TEKST wjeżdża od dołu.
       if (textEl)
         tl.to(
           textEl,
           { y: 0, opacity: 1, ease: "power2.out", duration: 0.2 },
-          0.05,
+          0.1,
         );
 
-      // 0.18 → 0.38: OBRAZ wjeżdża od dołu.
       if (imgEl)
         tl.to(
           imgEl,
           { y: 0, opacity: 1, ease: "power2.out", duration: 0.2 },
-          0.18,
+          0.22,
         );
 
-      // 0.25 → 0.48: ERASE path 1 - overshoot offset do -1.3L żeby żaden
-      // piksel-boundary nie zostawał na końcu path.
+      // ERASE path 1
       tl.to(
         path,
         {
           strokeDashoffset: -length * 1.3,
           ease: "none",
-          duration: 0.23,
+          duration: 0.18,
         },
-        0.25,
+        0.46,
       );
-      // 0.42 → 0.5: hard opacity-fade path 1 - bulletproof gwarancja że
-      // żaden piksel nie zostanie.
-      tl.to(path, { opacity: 0, ease: "none", duration: 0.08 }, 0.42);
+      tl.to(path, { opacity: 0, ease: "none", duration: 0.05 }, 0.6);
 
-      // 0.6 → 0.85: DRAW path 2 startuje po pauzie (0.48-0.6), wolniej.
+      // DRAW path 2 — same slow pacing as path 1.
       if (path2 && length2 > 0)
         tl.to(
           path2,
-          { strokeDashoffset: 0, ease: "none", duration: 0.25 },
-          0.6,
+          { strokeDashoffset: 0, ease: "none", duration: 0.32 },
+          0.62,
         );
 
-      // 0.85 → 1.0: ERASE path 2 - piece-by-piece jak path 1.
       if (path2 && length2 > 0)
         tl.to(
           path2,
-          { strokeDashoffset: -length2, ease: "none", duration: 0.15 },
-          0.85,
+          { strokeDashoffset: -length2, ease: "none", duration: 0.05 },
+          0.97,
         );
 
-      // 0.98 → 1.0: wrapper fade-out (safety).
       tl.to(svgWrap, { opacity: 0, ease: "none", duration: 0.02 }, 0.98);
 
       ScrollTrigger.refresh();
@@ -140,13 +145,11 @@ export default function FeaturesSketch() {
 
   return (
     <>
-      {/* SVG przyklejony do ekranu dokładnie w rozmiar viewportu;
-          -z-10 = zawsze ZA wszystkimi sekcjami (sekcje są transparentne, więc
-          path widać przez nie tam gdzie powinien być widoczny, ale nigdy nie
-          potrafi „przykryć" sekcji poniżej własnym rozmytym tłem). */}
+      {/* SVG fixed do ekranu - widoczne tylko desktop (md+). Na mobile
+          ukrywamy całkowicie żeby nie generować efektu zanikania w tle. */}
       <div
         ref={svgWrapRef}
-        className="pointer-events-none fixed inset-0 -z-10"
+        className="pointer-events-none fixed inset-0 -z-10 hidden md:block"
         style={{ opacity: 0 }}
         aria-hidden>
         <svg
@@ -180,12 +183,11 @@ export default function FeaturesSketch() {
       {/* Obraz i tekst scrollują normalnie. */}
       <section
         ref={sectionRef}
-        className="relative h-screen w-full overflow-hidden">
-        <div className="relative z-10 mx-auto grid h-full max-w-7xl grid-cols-1 items-center gap-12 px-6 lg:grid-cols-2 lg:gap-20">
+        className="relative w-full overflow-hidden pt-2 pb-10 md:h-[160vh] md:py-0">
+        <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-6 px-6 md:h-full md:gap-12 lg:grid-cols-2 lg:gap-20">
           <div
             ref={textRef}
-            className="will-change-[transform,opacity]"
-            style={{ opacity: 0 }}>
+            className="opacity-100 will-change-[transform,opacity] md:opacity-0">
             <h2 className="text-4xl font-semibold leading-[1.05] tracking-tight text-blue-950 md:text-5xl lg:text-6xl">
               Prześledź drogę
               <br />
@@ -200,9 +202,8 @@ export default function FeaturesSketch() {
 
           <div
             ref={imgRef}
-            className="relative p-8 will-change-[transform,opacity] md:p-12 lg:p-16"
-            style={{ opacity: 0 }}>
-            <div className="relative h-[65vh] overflow-hidden rounded-3xl shadow-2xl shadow-blue-900/20 ring-1 ring-white/50">
+            className="relative p-0 opacity-100 will-change-[transform,opacity] md:p-12 md:opacity-0 lg:p-16">
+            <div className="relative h-[45vh] overflow-hidden rounded-3xl shadow-2xl shadow-blue-900/20 ring-1 ring-white/50 md:h-[65vh]">
               <Image
                 src="/hero-spash.jpg"
                 alt="Splash czystej wody"

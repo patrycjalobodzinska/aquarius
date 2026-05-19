@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import HeroSideBadges from "./HeroSideBadges";
 import FeaturesSketch from "./FeaturesSketch";
 import MineralsSection from "./MineralsSection";
@@ -11,25 +11,7 @@ import TwoTracksSection from "./TwoTracksSection";
 import SofteningDeepDive from "./SofteningDeepDive";
 import ContactSection from "./ContactSection";
 import SiteFooter from "./SiteFooter";
-import Logo from "./Logo";
-
-const FilterShowcase = dynamic(
-  () => import(/* webpackPrefetch: true */ "./FilterShowcase"),
-  { ssr: false },
-);
-
-// Eager warm-up: w przeglądarce odpalamy import natychmiast po sparse-owaniu
-// modułu — webpack zaczyna pobierać chunk Three.js zanim React dotrze do
-// renderu komponentu. To skraca czas między „strona pokazuje treść" a
-// „kropla wskakuje na scenę".
-if (typeof window !== "undefined") {
-  void import("./HeroScene");
-}
-
-const HeroScene = dynamic(
-  () => import(/* webpackPreload: true */ "./HeroScene"),
-  { ssr: false },
-);
+import SiteHeader from "./SiteHeader";
 
 const PageAnimations = dynamic(
   () => import(/* webpackPreload: true */ "./PageAnimations"),
@@ -37,22 +19,12 @@ const PageAnimations = dynamic(
 );
 
 export default function Landing() {
-  // Tekst hero + wielki napis w tle znikają w miarę jak kamera zjeżdża w kroplę.
-  // Ten sam progress (scrollY / innerHeight, 0-1) który steruje kamerą w HeroScene.
   const heroTextRef = useRef<HTMLDivElement>(null);
   const heroBgTextRef = useRef<HTMLSpanElement>(null);
   const heroBadgesRef = useRef<HTMLDivElement>(null);
   const ribbonRef = useRef<HTMLDivElement>(null);
   const ribbonTextPathRef = useRef<SVGTextPathElement>(null);
 
-  // Blokada scrolla na czas ładowania hero - zdejmujemy gdy kropla + env-mapa
-  // są gotowe (callback z HeroScene → ReadySignal w Suspense).
-  const [heroReady, setHeroReady] = useState(false);
-  const handleHeroReady = useCallback(() => setHeroReady(true), []);
-
-  // Badge'e nie czekają na env-mapę 3D - lecą zaraz po reveal'u h1 (stagger
-  // linii konczy sie ~1.2s). Wcześniej były gated heroReady, przez co użytkownik
-  // czytał już tytuł, a badge'y wjeżdżały dopiero gdy kropla była gotowa.
   const [badgesVisible, setBadgesVisible] = useState(false);
   useEffect(() => {
     const t = window.setTimeout(() => setBadgesVisible(true), 1200);
@@ -65,54 +37,6 @@ export default function Landing() {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
     window.scrollTo(0, 0);
   }, []);
-
-  // Smooth scroll dla linków w headerze. Liczymy offset uwzględniając
-  // wysokość headera (h-16 = 64px), żeby cel nie znikał pod paskiem nawigacji.
-  const handleNavClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      const href = e.currentTarget.getAttribute("href");
-      if (!href) return;
-      if (href === "#") {
-        e.preventDefault();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-      if (!href.startsWith("#")) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      const headerOffset = 150;
-      const rect = (target as HTMLElement).getBoundingClientRect();
-      const top = window.scrollY + rect.top - headerOffset;
-      window.scrollTo({ top, behavior: "smooth" });
-    },
-    [],
-  );
-
-  useEffect(() => {
-    if (heroReady) {
-      // Po odblokowaniu - dispatch resize, żeby Lenis i ScrollTriggery
-      // przeliczyły pozycje (zwłaszcza że layout mógł się ustabilizować).
-      window.dispatchEvent(new Event("resize"));
-      return;
-    }
-    // scrollbar-gutter: stable na <html> (globals.css) sprawia, że miejsce na
-    // scrollbara jest zawsze zarezerwowane - wystarczy ustawić overflow:hidden.
-    const html = document.documentElement;
-    const body = document.body;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
-    // Bezpiecznik: gdyby ready-callback nie wszedł (np. błąd ładowania),
-    // odblokuj po 6s, żeby nigdy nie zostawić użytkownika z zamrożoną stroną.
-    const safety = window.setTimeout(() => setHeroReady(true), 6000);
-    return () => {
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
-      window.clearTimeout(safety);
-    };
-  }, [heroReady]);
 
   // Marquee napisu na łuku - manualny scroll-handler (omija potencjalne
   // konflikty z Lenis/ScrollTrigger, ten sam pattern co fade hero). Scroll
@@ -142,10 +66,14 @@ export default function Landing() {
   }, []);
 
   useEffect(() => {
+    // Scroll-fade hero tylko na desktopie - mobile ma być proste stackowanie
+    // sekcji bez efektów zanikania.
+    const mql = window.matchMedia("(min-width: 768px)");
+    if (!mql.matches) return;
+
     const onScroll = () => {
       const h = Math.max(window.innerHeight, 1);
       const p = Math.min(1, Math.max(0, window.scrollY / h));
-      // start fade 15% scrolla, pełne zniknięcie przy 70%.
       const t = Math.min(1, Math.max(0, (p - 0.15) / 0.55));
       const fade = 1 - t;
       const el = heroTextRef.current;
@@ -156,14 +84,13 @@ export default function Landing() {
       }
       const bg = heroBgTextRef.current;
       if (bg) {
-        bg.style.opacity = String(0.3 * fade);
+        bg.style.opacity = String(fade);
         bg.style.transform = `scale(${1 - 0.08 * t})`;
         bg.style.filter = `blur(${t * 6}px)`;
       }
       const badges = heroBadgesRef.current;
       if (badges) {
         badges.style.opacity = String(fade);
-        // Subtelny przesuw w prawo + zanikanie - jakby „odsuwały się" w cień
         badges.style.transform = `translate3d(${30 * t}px, -50%, 0)`;
         badges.style.filter = `blur(${t * 4}px)`;
       }
@@ -195,62 +122,24 @@ export default function Landing() {
       />
       <PageAnimations />
 
-      {/* HEADER - fixed, żeby hero wchodziło pod niego */}
-      <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/30 bg-white/40 backdrop-blur-md">
-        <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-          {/* LOGO - po lewej */}
-          <a
-            href="#"
-            onClick={handleNavClick}
-            aria-label="Aquarius - strona główna">
-            <Logo idSuffix="landing-header" />
-          </a>
+      <SiteHeader />
 
-          {/* SEKCJE - po prawej */}
-          <div className="hidden gap-7 text-sm text-slate-700 md:flex">
-            <a href="/produkty/filtry" className="hover:text-blue-700">
-              Filtry
-            </a>
-            <a href="/produkty/zmiekczacze" className="hover:text-blue-700">
-              Zmiękczacze
-            </a>
-            <a href="/produkty" className="hover:text-blue-700">
-              Wszystkie produkty
-            </a>
-            <a href="/kontakt" className="hover:text-blue-700">
-              Kontakt
-            </a>
-          </div>
-        </nav>
-      </header>
-
-      {/* HERO - sekcja h-svh, pinowana przez ScrollTrigger (pinSpacing:true) na 100vh.
-          Podczas pinu kamera w HeroScene zjeżdża w kroplę, tekst znika.
-          Po zakończeniu pinu następna sekcja pojawia się natychmiast. */}
-      <section data-hero-pin className="relative h-svh overflow-hidden">
-        {/* WIELKI PÓŁPRZEZROCZYSTY NAPIS - w tle, za kroplą. */}
+      <section className="relative h-svh overflow-hidden">
+        {/* WIELKI PÓŁPRZEZROCZYSTY NAPIS - w tle, z animowanym gradientem. */}
         <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
           <span
             ref={heroBgTextRef}
-            className="block w-full whitespace-nowrap text-center font-semibold uppercase tracking-tight text-blue-950/10 text-[22vw] leading-none will-change-[opacity,transform,filter]"
-            style={{ opacity: 0.3 }}>
+            className="hero-bg-text-shimmer block w-full whitespace-nowrap text-center font-semibold uppercase tracking-tight text-[22vw] leading-none will-change-[opacity,transform,filter]">
             Aquarius
           </span>
         </div>
 
-        <div className="absolute inset-0 z-10">
-          {/* Brak placeholdera-kropli - żeby nie było widać „kuli, która
-              znika i ustępuje 3D-owej kropli". Zamiast tego: niedefiniowalny,
-              atmosferyczny rozmyty glow (radial-gradient w miejscu, gdzie
-              wyląduje kropla). Po zamontowaniu 3D-owej kropli glow zostaje
-              jako naturalne tło/halo, więc nic „nie znika" wizualnie. */}
+        <div className="absolute inset-0 z-0">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-0 flex items-center justify-center">
             <div
-              className={`h-[70vh] w-[70vh] max-h-[700px] max-w-[700px] rounded-full blur-3xl ${
-                heroReady ? "" : "hero-glow-pulse"
-              }`}
+              className="h-[70vh] w-[70vh] max-h-[700px] max-w-[700px] rounded-full blur-3xl hero-glow-pulse"
               style={{
                 background:
                   "radial-gradient(circle at 50% 45%, rgba(190,225,255,0.55) 0%, rgba(125,211,252,0.25) 30%, rgba(125,211,252,0.08) 55%, transparent 75%)",
@@ -258,7 +147,46 @@ export default function Landing() {
               }}
             />
           </div>
-          <HeroScene onReady={handleHeroReady} />
+        </div>
+
+        {/* Pływające krople-dekoracje - widoczne głównie na mobile, gdzie nie
+            ma side-badges po prawej. Na desktopie zostają jako subtelny akcent. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-[5] overflow-hidden">
+          <svg
+            className="hero-drop-a absolute right-[6%] top-[14%] h-14 w-14 text-sky-400/70 md:right-[12%] md:top-[18%] md:h-16 md:w-16"
+            viewBox="0 0 24 24"
+            fill="currentColor">
+            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
+            <path
+              d="M9 14c0 2 1.5 3.5 3.5 3.5"
+              stroke="white"
+              strokeWidth="1.2"
+              fill="none"
+              opacity="0.7"
+            />
+          </svg>
+          <svg
+            className="hero-drop-b absolute right-[22%] top-[42%] h-9 w-9 text-blue-500/60 md:right-[28%] md:top-[58%] md:h-10 md:w-10"
+            viewBox="0 0 24 24"
+            fill="currentColor">
+            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
+          </svg>
+          <svg
+            className="hero-drop-c absolute right-[12%] top-[62%] h-6 w-6 text-cyan-400/70 md:right-[18%] md:top-[32%] md:h-8 md:w-8"
+            viewBox="0 0 24 24"
+            fill="currentColor">
+            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
+          </svg>
+          <svg
+            className="hero-drop-a absolute right-[34%] top-[24%] h-5 w-5 text-blue-400/70 md:hidden"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            style={{ animationDelay: "1.8s" }}>
+            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
+          </svg>
+
         </div>
 
         <HeroSideBadges ref={heroBadgesRef} visible={badgesVisible} />

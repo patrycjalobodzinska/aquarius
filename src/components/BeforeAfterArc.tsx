@@ -24,6 +24,11 @@ export default function BeforeAfterArc() {
   const pillsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Mobile: brak sticky-transferu, dwa bloki BEFORE/AFTER stoją obok siebie
+    // w naturalnym flow. GSAP timeline odpalamy tylko na md+.
+    const isDesktop = window.matchMedia("(min-width: 768px)").matches;
+    if (!isDesktop) return;
+
     let tl: gsap.core.Timeline | null = null;
 
     const setup = () => {
@@ -153,10 +158,103 @@ export default function BeforeAfterArc() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full h-[260vh] md:h-[280vh]">
+      className="relative w-full md:h-[280vh]">
+      {/* MOBILE: dwa bloki stack-em, bez sticky/transferu. */}
+      <div className="flex flex-col gap-12 px-6 py-12 md:hidden">
+        <div>
+          <div className="mb-3 inline-block rounded-full bg-blue-950 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-white">
+            Teraz
+          </div>
+          <h2 className="text-3xl font-semibold leading-tight tracking-tight text-blue-950">
+            Tyle plastiku
+            <br />
+            zostaje w domu.
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            1 440 butelek rocznie, ~3 800 zł kaucji, kilometry tragania z
+            marketu. Chlor, mikroplastik, wirusy.
+          </p>
+          <div className="mt-5 flex items-center gap-3">
+            <div className="relative aspect-[3/4] w-1/2 overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30">
+              <Image
+                src={BEFORE_1}
+                alt="Kuchnia z butelkami"
+                fill
+                sizes="45vw"
+                className="object-cover"
+                style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
+              />
+            </div>
+            <div className="relative aspect-[3/4] w-1/2 overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30">
+              <Image
+                src={BEFORE_2}
+                alt="Woda z wirusami"
+                fill
+                sizes="45vw"
+                className="object-cover"
+                style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div className="mb-3 inline-block rounded-full bg-blue-700 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-white">
+            Z filtrem
+          </div>
+          <h2 className="text-3xl font-semibold leading-tight tracking-tight text-blue-950">
+            Jedno urządzenie.
+            <br />
+            Zero butelek.
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            Pięciostopniowa filtracja, woda wzbogacona minerałami, pH 7.2–7.8 -
+            prosto z kranu, bez plastiku i bez kaucji.
+          </p>
+          <div className="mt-5 flex items-center gap-3">
+            <div className="relative aspect-[3/4] w-1/2 overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30">
+              <Image
+                src={AFTER_1}
+                alt="Czysta kuchnia"
+                fill
+                sizes="45vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-[3/4] w-1/2 overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30">
+              <Image
+                src={AFTER_2}
+                alt="Czysta woda z minerałami"
+                fill
+                sizes="45vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            {[
+              { label: "Bez plastiku", color: "bg-blue-700" },
+              { label: "5 stopni filtracji", color: "bg-blue-950" },
+              { label: "pH 7.2 – 7.8", color: "bg-sky-600" },
+              { label: "Mineralizacja", color: "bg-blue-700" },
+              { label: "Bez kaucji", color: "bg-blue-950" },
+              { label: "99.9% czystości", color: "bg-sky-600" },
+            ].map((pill) => (
+              <span
+                key={pill.label}
+                className={`${pill.color} inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white shadow-sm`}>
+                <span className="h-1 w-1 rounded-full bg-white/80" />
+                {pill.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* DESKTOP: sticky-stage z transferem BEFORE→AFTER. */}
       <div
         ref={stageRef}
-        className="sticky top-0 h-screen w-full overflow-hidden">
+        className="sticky top-0 hidden h-screen w-full overflow-hidden md:block">
         {/* BEFORE + AFTER po lewej, te same rest-pozycje. */}
         <div className="absolute left-0 top-[58%] z-0 flex -translate-y-1/2 items-center gap-3 px-4 md:left-0 md:top-[36%] md:gap-6 md:pl-28 md:pr-0 lg:pl-40">
           <div

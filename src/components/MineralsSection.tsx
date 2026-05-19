@@ -164,7 +164,7 @@ export default function MineralsSection() {
         );
       }
 
-      // Pen-underline - rysuje się jak długopisem po wszystkim.
+      // Pen-underline - rysuje się jak długopisem, długo i powoli.
       if (underline) {
         const len = underline.getTotalLength();
         underline.style.strokeDasharray = `${len}`;
@@ -173,8 +173,8 @@ export default function MineralsSection() {
           gsap.to(underline, {
             strokeDashoffset: 0,
             ease: "power2.inOut",
-            duration: 1.3,
-            delay: 1.1,
+            duration: 3.6,
+            delay: 1.4,
             scrollTrigger: {
               trigger: section,
               start: "top 75%",
@@ -337,13 +337,13 @@ export default function MineralsSection() {
                       key={m.label}
                       onMouseEnter={handleEnter(i)}
                       onMouseLeave={handleLeave(i)}
-                      className="absolute z-10 grid h-36 w-36 -translate-x-1/2 -translate-y-1/2 place-items-center"
+                      className="absolute z-10 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center md:h-36 md:w-36"
                       style={{ left: `${xPct}%`, top: `${yPct}%` }}>
                       <div
                         ref={(el) => {
                           circleRefs.current[i] = el;
                         }}
-                        className="grid h-24 w-24 cursor-pointer place-items-center rounded-full border border-white/60 bg-white/90 text-center text-[13px] font-semibold uppercase tracking-wide text-blue-950 shadow-lg backdrop-blur transition-colors hover:bg-white"
+                        className="grid h-14 w-14 cursor-pointer place-items-center rounded-full border border-white/60 bg-white/90 text-center text-[10px] font-semibold uppercase tracking-wide text-blue-950 shadow-lg backdrop-blur transition-colors hover:bg-white md:h-24 md:w-24 md:text-[13px]"
                         style={{ willChange: "transform" }}>
                         {m.label}
                       </div>
