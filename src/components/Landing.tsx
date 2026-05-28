@@ -134,7 +134,7 @@ export default function Landing() {
 
       <section className="relative h-svh overflow-hidden">
         {/* WIELKI PÓŁPRZEZROCZYSTY NAPIS - watermark w tle, za szklanką. */}
-        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden opacity-30">
+        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden opacity-15">
           <span
             ref={heroBgTextRef}
             className="hero-bg-text-shimmer block w-full whitespace-nowrap text-center font-semibold uppercase tracking-tight text-[22vw] leading-none will-change-[opacity,transform,filter]">
@@ -163,16 +163,14 @@ export default function Landing() {
           ref={heroGlassRef}
           aria-hidden
           className="pointer-events-none absolute inset-0 z-[4] flex items-center justify-center will-change-[opacity,transform]">
-          <div className="relative h-[60vh] w-[60vh] max-h-[600px] max-w-[600px]">
-            <Image
-              src="/water-glass.webp"
-              alt=""
-              fill
-              priority
-              sizes="(min-width:1024px) 600px, 60vh"
-              className="object-contain"
-            />
-          </div>
+          <Image
+            src="/water-glass.webp"
+            alt=""
+            width={700}
+            height={700}
+            priority
+            className="h-[70vh] max-h-[680px] w-auto object-contain"
+          />
         </div>
 
         {/* Pływające krople-dekoracje - widoczne głównie na mobile, gdzie nie
