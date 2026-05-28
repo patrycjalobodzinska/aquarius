@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title:
     "Filtry wody RO i zmiękczacze — czysta, mineralizowana woda z kranu",
   description:
-    "Filtracja odwróconą osmozą, ultrafiltracja i zmiękczanie wody. Usuwamy do 99,9% zanieczyszczeń, przywracamy minerały, eliminujemy kamień. Doradztwo, montaż, serwis w całej Polsce.",
+    "Filtracja odwróconą osmozą, ultrafiltracja i zmiękczanie wody. Doradzimy odpowiedni model i zamontujemy. Sprzęt sprawdzonych marek z gwarancją producenta. Rzeszów i Podkarpacie.",
   alternates: { canonical: "/" },
   openGraph: {
     url: "/",

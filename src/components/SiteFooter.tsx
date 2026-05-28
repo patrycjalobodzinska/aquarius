@@ -9,7 +9,7 @@ export default function SiteFooter() {
         <div>
           <Logo idSuffix="site-footer" />
           <p className="mt-3 text-sm text-slate-500">
-            Uzdatnianie wody na Podkarpaciu. Mobilny serwis z dojazdem.
+            Uzdatnianie wody na Podkarpaciu. Doradztwo i montaż z dojazdem.
           </p>
         </div>
         <div>

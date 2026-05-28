@@ -11,7 +11,7 @@ const SITE_URL =
 export const metadata: Metadata = {
   title: "Obszar obsługi — Rzeszów i całe Podkarpacie | Aquarius",
   description:
-    "Aquarius — uzdatnianie wody na Podkarpaciu. Obsługujemy z dojazdem Rzeszów, Krosno, Przemyśl, Mielec, Stalową Wolę, Dębicę, Jarosław, Sanok i okoliczne miejscowości.",
+    "Aquarius — montaż systemów uzdatniania wody na Podkarpaciu. Doradzamy i montujemy z dojazdem w Rzeszowie, Krośnie, Przemyślu, Mielcu, Stalowej Woli, Dębicy, Jarosławiu, Sanoku i okolicach.",
   alternates: { canonical: "/obszar-obslugi" },
   keywords: [
     "zmiękczacz wody Podkarpacie",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     url: "/obszar-obslugi",
     title: "Obszar obsługi — Podkarpacie | Aquarius",
     description:
-      "Mobilny serwis uzdatniania wody na Podkarpaciu. Dojazd, pomiar, montaż.",
+      "Doradztwo i montaż systemów uzdatniania wody na Podkarpaciu. Dojazd, wycena, montaż.",
   },
 };
 
@@ -89,21 +89,20 @@ export default function ObszarObslugiPage() {
 
         <header className="mb-12">
           <p className="text-xs font-medium uppercase tracking-[0.2em] text-sky-600">
-            Podkarpacie · mobilny serwis
+            Podkarpacie · dojazd do klienta
           </p>
           <h1 className="mt-3 text-4xl font-semibold leading-tight text-blue-950 md:text-5xl">
             Obszar obsługi Aquarius
           </h1>
           <p className="mt-5 max-w-2xl text-lg leading-relaxed text-slate-700">
             Nie mamy stacjonarnego salonu — przyjeżdżamy do klienta. Z Rzeszowa
-            obsługujemy całe województwo podkarpackie: pomiar twardości i jakości
-            wody, dobór rozwiązania, montaż i serwis.
+            doradzamy i montujemy systemy uzdatniania wody na całym Podkarpaciu.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link
               href="/kontakt"
               className="inline-flex items-center gap-2 rounded-full bg-blue-950 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-950/20 transition hover:bg-blue-800">
-              Umów wizytę z pomiarem
+              Skontaktuj się
             </Link>
             <a
               href="tel:+48513001600"
@@ -120,7 +119,7 @@ export default function ObszarObslugiPage() {
           <p className="mt-3 max-w-3xl text-slate-600">
             Dla każdego miasta zebraliśmy dane o lokalnej twardości wody
             z oficjalnych źródeł (wodociągi miejskie), żeby od razu wiedzieć
-            jakiego rozwiązania potrzebujesz.
+            jakie rozwiązanie ma sens — a kiedy zmiękczacz nie jest potrzebny.
           </p>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {cities.map((c) => (
@@ -178,30 +177,33 @@ export default function ObszarObslugiPage() {
           <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
             <div className="text-2xl font-semibold text-blue-950">1.</div>
             <h3 className="mt-2 text-lg font-semibold text-blue-950">
-              Umawiamy wizytę
+              Krótka rozmowa
             </h3>
             <p className="mt-2 text-sm text-slate-600">
-              Telefon lub formularz — ustalamy dogodny termin u Ciebie.
+              Telefon lub formularz — pytamy o instalację, twardość wody
+              i potrzeby, podajemy zakres cenowy.
             </p>
           </div>
           <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
             <div className="text-2xl font-semibold text-blue-950">2.</div>
             <h3 className="mt-2 text-lg font-semibold text-blue-950">
-              Mierzymy wodę
+              Doradzamy model
             </h3>
             <p className="mt-2 text-sm text-slate-600">
-              Bezpłatny pomiar twardości i parametrów. Doradzamy uczciwie — nie
-              proponujemy zmiękczacza, jeśli nie jest potrzebny.
+              Wskazujemy konkretny model ze sprawdzonej marki, podajemy cenę
+              ze sprzętem i montażem. Nie proponujemy zmiękczacza, jeśli nie
+              jest potrzebny.
             </p>
           </div>
           <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
             <div className="text-2xl font-semibold text-blue-950">3.</div>
             <h3 className="mt-2 text-lg font-semibold text-blue-950">
-              Montujemy i serwisujemy
+              Zamawiamy i montujemy
             </h3>
             <p className="mt-2 text-sm text-slate-600">
-              Montaż w ciągu kilku godzin, gwarancja do 5 lat, serwis okresowy
-              z dojazdem.
+              Sprzęt zamawiamy u dostawcy, przyjeżdżamy na umówiony termin
+              i montujemy. Gwarancja producenta na urządzenie + gwarancja na
+              nasz montaż.
             </p>
           </div>
         </section>

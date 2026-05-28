@@ -115,7 +115,7 @@ export default function ContactSection() {
                 Dziękujemy — odezwiemy się do&nbsp;końca dnia roboczego.
               </h3>
               <p className="mt-3 text-base text-slate-600">
-                Zgłoszenie trafiło do zespołu doradców.
+                Wracamy do Ciebie najszybciej, jak się da.
               </p>
             </div>
           ) : (

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Aquarius",
   },
   description:
-    "Zmiękczacze wody, filtry odwróconej osmozy i ultrafiltracja w Rzeszowie i na Podkarpaciu. Doradztwo, montaż i serwis w domach, mieszkaniach i lokalach gastronomicznych. Koniec z kamieniem i twardą wodą — czysta, mineralizowana woda z kranu.",
+    "Zmiękczacze wody, filtry odwróconej osmozy i ultrafiltracja w Rzeszowie i na Podkarpaciu. Doradzimy odpowiedni model i zamontujemy w Twoim domu lub lokalu. Sprzęt sprawdzonych marek z gwarancją producenta.",
   applicationName: "Aquarius",
   authors: [{ name: "Aquarius" }],
   creator: "Aquarius",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     "uzdatnianie wody Podkarpacie",
     "zmiękczacz wody Podkarpacie",
     "montaż zmiękczacza wody",
-    "serwis zmiękczacza wody",
+    "montaż filtra wody Rzeszów",
     "filtr RO pod zlew",
     "stacja zmiękczająca",
     "ultrafiltracja",
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     title:
       "Aquarius Rzeszów — Zmiękczacze wody i filtry RO | Podkarpacie",
     description:
-      "Zmiękczacze wody, filtry RO i ultrafiltracja. Montaż i serwis w Rzeszowie oraz na całym Podkarpaciu. Koniec z twardą wodą i kamieniem.",
+      "Zmiękczacze wody, filtry RO i ultrafiltracja. Doradzimy i zamontujemy w Rzeszowie i na całym Podkarpaciu.",
     images: [
       {
         url: "/hero-spash.jpg",
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
     title:
       "Aquarius Rzeszów — Zmiękczacze wody i filtry RO",
     description:
-      "Montaż i serwis zmiękczaczy oraz filtrów RO w Rzeszowie i na Podkarpaciu.",
+      "Doradztwo i montaż zmiękczaczy oraz filtrów RO w Rzeszowie i na Podkarpaciu.",
     images: ["/hero-spash.jpg"],
   },
   robots: {
@@ -143,8 +143,8 @@ const localBusinessJsonLd = {
   serviceType: [
     "Montaż zmiękczaczy wody",
     "Montaż filtrów odwróconej osmozy",
-    "Serwis stacji uzdatniania wody",
-    "Doradztwo i badanie wody",
+    "Montaż systemów ultrafiltracji",
+    "Doradztwo techniczne",
   ],
 };
 

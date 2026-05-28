@@ -60,7 +60,7 @@ export const cities: City[] = [
     },
     softenerRecommended: true,
     blurb:
-      "W Krośnie woda pochodzi z trzech ujęć i twardość różni się istotnie w zależności od dzielnicy: Sieniawa 162 mg CaCO₃/l (miękka), Iskrzynia 252 mg (średnio twarda), Szczepańcowa 196 mg. Dlatego przed doborem rozwiązania zawsze robimy pomiar na konkretnym kranie.",
+      "W Krośnie woda pochodzi z trzech ujęć i twardość różni się istotnie w zależności od dzielnicy: Sieniawa 162 mg CaCO₃/l (miękka), Iskrzynia 252 mg (średnio twarda), Szczepańcowa 196 mg. Warto wiedzieć, z którego ujęcia jest Twój kran przed wyborem rozwiązania.",
     nearby: ["Korczyna", "Miejsce Piastowe", "Iwonicz-Zdrój", "Chorkówka"],
   },
   {

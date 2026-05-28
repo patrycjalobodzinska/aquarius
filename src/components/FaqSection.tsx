@@ -5,7 +5,7 @@ const faq = [
   },
   {
     q: "Ile kosztuje zmiękczacz wody z montażem?",
-    a: "Stacja zmiękczająca dla domu jednorodzinnego to koszt 3 500–6 500 zł z montażem, zależnie od pojemności złoża i twardości wody na danym ujęciu. Wycenę przygotowujemy po bezpłatnym pomiarze u klienta.",
+    a: "Stacja zmiękczająca dla domu jednorodzinnego to koszt 3 500–6 500 zł ze sprzętem i montażem, zależnie od modelu i wielkości złoża. Konkretną cenę podajemy po krótkiej rozmowie o Twojej instalacji.",
   },
   {
     q: "Czy zmiękczona woda jest zdrowa do picia?",
@@ -24,8 +24,8 @@ const faq = [
     a: "Tak — z Rzeszowa dojeżdżamy do całego Podkarpacia: Krosno, Przemyśl, Mielec, Stalowa Wola, Dębica, Jarosław, Sanok i okoliczne gminy. Domy ze studniami głębinowymi też obsługujemy, często z dodatkowym odżelaziaczem.",
   },
   {
-    q: "Jak często serwisuje się zmiękczacz wody?",
-    a: "Sól regeneracyjną uzupełnia się co 1–3 miesiące. Serwis okresowy zalecamy raz w roku — obejmuje on dezynfekcję złoża, kontrolę elektroniki, regulację parametrów. Złoże jonowymienne wytrzymuje 8–10 lat.",
+    q: "Jak często trzeba uzupełniać sól w zmiękczaczu?",
+    a: "Sól regeneracyjną uzupełnia się co 1–3 miesiące, w zależności od zużycia wody i twardości. Złoże jonowymienne wytrzymuje 8–10 lat. Sól kupisz w marketach budowlanych lub u producenta sprzętu.",
   },
   {
     q: "Czy montujecie filtry w mieszkaniach w bloku?",
@@ -59,7 +59,7 @@ export default function FaqSection() {
         </h2>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600">
           Praktyczne odpowiedzi na pytania, które słyszymy od klientów
-          w Rzeszowie i okolicach — twarda woda, koszty, montaż, serwis.
+          w Rzeszowie i okolicach — twarda woda, koszty, montaż, gwarancja.
         </p>
 
         <div className="mt-10 divide-y divide-sky-100 rounded-2xl border border-sky-100 bg-white/70 backdrop-blur-sm">

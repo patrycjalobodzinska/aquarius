@@ -6,15 +6,15 @@ import SmoothScroll from "@/components/SmoothScroll";
 import ContactSection from "@/components/ContactSection";
 
 export const metadata: Metadata = {
-  title: "Kontakt — doradztwo, montaż i serwis filtrów wody",
+  title: "Kontakt — doradztwo i montaż filtrów wody",
   description:
-    "Skontaktuj się z Aquarius. Doradzimy filtr, zmiękczacz lub system RO, dobierzemy parametry, zorganizujemy montaż i serwis. Obsługujemy całą Polskę.",
+    "Skontaktuj się z Aquarius. Doradzimy filtr, zmiękczacz lub system RO, dobierzemy model i zorganizujemy montaż. Rzeszów i Podkarpacie.",
   alternates: { canonical: "/kontakt" },
   openGraph: {
     url: "/kontakt",
     title: "Kontakt Aquarius — filtry wody i zmiękczacze",
     description:
-      "Doradztwo, dobór modelu, montaż i serwis filtrów wody oraz zmiękczaczy. Cała Polska.",
+      "Doradztwo, dobór modelu i montaż filtrów wody oraz zmiękczaczy. Rzeszów i Podkarpacie.",
   },
 };
 
@@ -76,8 +76,8 @@ export default function KontaktPage() {
             .
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-600 md:text-lg">
-            Pomożemy zmierzyć twardość wody, dobrać filtr lub zmiękczacz i
-            zorganizujemy montaż. Wycena i&nbsp;doradztwo są bezpłatne — bez
+            Pomożemy dobrać filtr lub zmiękczacz do Twojej instalacji
+            i&nbsp;zorganizujemy montaż. Doradztwo i&nbsp;wycena bez
             zobowiązań.
           </p>
         </div>

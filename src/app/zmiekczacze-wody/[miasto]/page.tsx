@@ -24,9 +24,9 @@ export async function generateMetadata({
     return { title: "Nie znaleziono", robots: { index: false, follow: false } };
   }
   const title = city.softenerRecommended
-    ? `Zmiękczacze wody ${city.name} — montaż i serwis | Aquarius`
+    ? `Zmiękczacze wody ${city.name} — doradztwo i montaż | Aquarius`
     : `Uzdatnianie wody ${city.name} — filtry RO i doradztwo | Aquarius`;
-  const description = `${city.blurb} Doradztwo, montaż i serwis — dojeżdżamy do klienta.`;
+  const description = `${city.blurb} Doradzimy i zamontujemy sprzęt sprawdzonych marek — dojeżdżamy do klienta.`;
   const url = `/zmiekczacze-wody/${city.slug}`;
   return {
     title,
@@ -52,7 +52,7 @@ const faqFor = (city: City) => {
   const baseFaq = [
     {
       q: `Jaka jest twardość wody w ${city.nameLocative}?`,
-      a: `Według ${city.source.label} (${city.source.period}) twardość wody w ${city.nameLocative} to ${hardnessStr} — woda ${city.hardnessClass}. Dokładny pomiar wykonujemy bezpłatnie u klienta przed doborem rozwiązania.`,
+      a: `Według ${city.source.label} (${city.source.period}) twardość wody w ${city.nameLocative} to ${hardnessStr} — woda ${city.hardnessClass}. Te dane pochodzą z oficjalnego źródła wodociągów — można je sprawdzić w linku do raportu.`,
     },
   ];
 
@@ -60,34 +60,34 @@ const faqFor = (city: City) => {
     baseFaq.push(
       {
         q: `Ile kosztuje montaż zmiękczacza wody w ${city.nameLocative}?`,
-        a: `Koszt zmiękczacza wody dla domu jednorodzinnego w ${city.nameLocative} to zwykle 3 500–6 500 zł z montażem, zależnie od pojemności złoża i twardości. Wycenę przygotujemy po pomiarze.`,
+        a: `Koszt zmiękczacza wody dla domu jednorodzinnego to zwykle 3 500–6 500 zł ze sprzętem i montażem, zależnie od wybranego modelu. Konkretną cenę podamy po krótkiej rozmowie o Twojej instalacji.`,
       },
       {
         q: `Czy zmiękczona woda nadaje się do picia?`,
-        a: `Zmiękczona woda jest bezpieczna do mycia, prania i AGD. Do picia rekomendujemy filtr odwróconej osmozy z mineralizacją — często łączymy oba systemy w jednym domu.`,
+        a: `Zmiękczona woda jest bezpieczna do mycia, prania i AGD. Do picia polecamy filtr odwróconej osmozy z mineralizacją — często montujemy oba systemy w jednym domu.`,
       },
     );
   } else {
     baseFaq.push(
       {
         q: `Czy w ${city.nameLocative} potrzebny jest zmiękczacz wody?`,
-        a: `Woda w sieci miejskiej w ${city.nameLocative} jest miękka — zmiękczacz na zasilaniu z wodociągów najczęściej nie ma uzasadnienia. Inaczej wygląda to w domach zasilanych z własnej studni, gdzie twardość może być znacznie wyższa. Zawsze zaczynamy od pomiaru.`,
+        a: `Woda w sieci miejskiej w ${city.nameLocative} jest miękka — zmiękczacz na zasilaniu z wodociągów najczęściej nie ma sensu. Inaczej wygląda to w domach zasilanych z własnej studni, gdzie twardość może być znacznie wyższa. Najlepiej sprawdzić to testem twardości (tani test paskowy z apteki lub sklepu zoologicznego).`,
       },
       {
         q: `Co warto zamontować zamiast zmiękczacza w ${city.nameLocative}?`,
-        a: `Najczęściej polecamy filtr odwróconej osmozy (RO) pod zlew kuchenny — usuwa chlor, metale ciężkie i pozostałości farmaceutyków, daje czystą wodę do picia bez butelek. Koszt z montażem to zwykle 1 500–3 000 zł.`,
+        a: `Najczęściej polecamy filtr odwróconej osmozy (RO) pod zlew kuchenny — usuwa chlor, metale ciężkie i pozostałości farmaceutyków. Koszt zestawu z montażem to zwykle 1 500–3 000 zł.`,
       },
     );
   }
 
   baseFaq.push(
     {
-      q: `Jak często wymienia się filtry / złoże?`,
-      a: `Sól do zmiękczacza uzupełnia się co 1–3 miesiące, złoże wytrzymuje 8–10 lat. Filtry wstępne RO wymienia się co 6–12 miesięcy, membrana RO — co 2–3 lata. Serwis raz w roku obejmuje sprawdzenie układu i dezynfekcję.`,
+      q: `Jak często wymienia się filtry / wkłady?`,
+      a: `Sól do zmiękczacza uzupełnia się co 1–3 miesiące, złoże wytrzymuje 8–10 lat. Filtry wstępne RO wymienia się co 6–12 miesięcy, membrana RO — co 2–3 lata. Wkłady kupisz u producenta lub w sklepach internetowych z hydrauliką.`,
     },
     {
       q: `Czy obsługujecie miejscowości wokół ${city.name}?`,
-      a: `Tak — dojeżdżamy do klienta. Z ${city.nameLocative} obsługujemy m.in. ${city.nearby.join(", ")}. Nie mamy stacjonarnego salonu — to jest pełna usługa mobilna z dojazdem.`,
+      a: `Tak — dojeżdżamy do klienta. Z ${city.nameLocative} obsługujemy m.in. ${city.nearby.join(", ")}. Nie mamy stacjonarnego salonu.`,
     },
   );
 
@@ -133,7 +133,7 @@ export default async function CityPage({
     name: city.softenerRecommended
       ? `Zmiękczacze wody ${city.name}`
       : `Uzdatnianie wody ${city.name}`,
-    serviceType: "Montaż i serwis systemów uzdatniania wody",
+    serviceType: "Doradztwo i montaż systemów uzdatniania wody",
     provider: {
       "@type": "LocalBusiness",
       "@id": `${SITE_URL}/#business`,
@@ -225,7 +225,7 @@ export default async function CityPage({
             <Link
               href="/kontakt"
               className="inline-flex items-center gap-2 rounded-full bg-blue-950 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-950/20 transition hover:bg-blue-800">
-              Bezpłatne badanie wody u klienta
+              Porozmawiajmy o montażu
             </Link>
             <a
               href="tel:+48513001600"
@@ -256,8 +256,8 @@ export default async function CityPage({
               Cała okolica
             </div>
             <p className="mt-2 text-sm text-slate-600">
-              Bez stacjonarnego salonu — przyjeżdżamy do Ciebie z pomiarem
-              i sprzętem.
+              Bez stacjonarnego salonu — przyjeżdżamy z gotowym sprzętem
+              na umówiony termin.
             </p>
           </div>
           <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
@@ -265,11 +265,11 @@ export default async function CityPage({
               Gwarancja
             </div>
             <div className="mt-2 text-2xl font-semibold text-blue-950">
-              do 5 lat
+              Producenta
             </div>
             <p className="mt-2 text-sm text-slate-600">
-              Gwarancja producenta + nasz serwis w {city.nameLocative}{" "}
-              i okolicach.
+              Sprzęt sprawdzonych marek z gwarancją producenta + gwarancja
+              na nasz montaż.
             </p>
           </div>
         </section>
@@ -294,8 +294,8 @@ export default async function CityPage({
                     d: `Większe odbiory — gastronomia, biura, gabinety w ${city.nameLocative}.`,
                   },
                   {
-                    t: "Serwis i badania",
-                    d: `Bezpłatny pomiar twardości u klienta, serwis okresowy, wymiana złóż i membran.`,
+                    t: "Doradztwo i wycena",
+                    d: `Pomagamy wybrać model do Twojej instalacji i podajemy konkretną cenę ze sprzętem i montażem.`,
                   },
                 ]
               : [
@@ -308,8 +308,8 @@ export default async function CityPage({
                     d: `Dla większych odbiorów lub całego mieszkania — usuwa bakterie, wirusy i mikroplastik bez odsalania wody.`,
                   },
                   {
-                    t: "Doradztwo i pomiar",
-                    d: `Robimy pomiar twardości i jakości wody u klienta. Nie sprzedajemy zmiękczacza, jeśli nie jest potrzebny.`,
+                    t: "Doradztwo techniczne",
+                    d: `Pomagamy dobrać urządzenie do Twojej sytuacji. Nie proponujemy zmiękczacza, jeśli nie jest potrzebny.`,
                   },
                   {
                     t: "Domy ze studni",
@@ -389,17 +389,18 @@ export default async function CityPage({
 
         <section className="rounded-3xl bg-blue-950 p-8 text-white md:p-12">
           <h2 className="text-2xl font-semibold md:text-3xl">
-            Bezpłatne badanie wody w {city.nameLocative}
+            Montaż uzdatniania wody w {city.nameLocative}
           </h2>
           <p className="mt-3 max-w-xl text-sky-100">
-            Przyjeżdżamy do Ciebie, mierzymy twardość i jakość wody, doradzamy
-            uczciwie. Płacisz dopiero za rozwiązanie, jeśli go potrzebujesz.
+            Doradzimy odpowiedni model do Twojej instalacji, zamówimy sprzęt
+            i zamontujemy. Konkretna wycena po krótkiej rozmowie — bez
+            zobowiązań.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
               href="/kontakt"
               className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-blue-950 transition hover:bg-sky-50">
-              Umów wizytę
+              Skontaktuj się
             </Link>
             <a
               href="tel:+48513001600"

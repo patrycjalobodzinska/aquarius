@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     url: "/produkty/filtry",
     title: "Filtry wody — odwrócona osmoza i ultrafiltracja",
     description:
-      "Filtry RO, ultrafiltracja i Direct Flow do mieszkania, domu i gastronomii. Doradztwo, montaż, serwis.",
+      "Filtry RO, ultrafiltracja i Direct Flow do mieszkania, domu i gastronomii. Doradztwo i montaż z dojazdem.",
   },
 };
 

@@ -9,7 +9,7 @@ import { categories, formatPrice, products, type ProductCategory } from "@/lib/p
 export const metadata: Metadata = {
   title: "Produkty — filtry RO, ultrafiltracja i zmiękczacze wody",
   description:
-    "Pełna oferta Aquarius: filtry odwróconej osmozy, ultrafiltracja, zmiękczacze wody do mieszkania, domu i gastronomii. Sprawdzone modele z dostawą, montażem i serwisem w całej Polsce.",
+    "Pełna oferta Aquarius: filtry odwróconej osmozy, ultrafiltracja, zmiękczacze wody do mieszkania, domu i gastronomii. Sprawdzone modele — doradzimy i zamontujemy.",
   keywords: [
     "filtry wody",
     "filtr RO",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     url: "/produkty",
     title: "Filtry wody i zmiękczacze Aquarius — pełna oferta",
     description:
-      "Filtry odwróconej osmozy, ultrafiltracja i zmiękczacze wody. Modele dla mieszkań, domów i gastronomii z dostawą i serwisem.",
+      "Filtry odwróconej osmozy, ultrafiltracja i zmiękczacze wody. Modele dla mieszkań, domów i gastronomii — doradztwo i montaż z dojazdem.",
   },
   twitter: {
     title: "Filtry wody i zmiękczacze Aquarius — pełna oferta",
@@ -77,8 +77,8 @@ export default function ProductsListingPage() {
             Filtry i&nbsp;zmiękczacze Aquarius
           </h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-600 md:text-lg">
-            Sprawdzone modele dla mieszkań, domów i&nbsp;gastronomii. Każdy
-            z&nbsp;dostawą i&nbsp;pełną obsługą serwisową.
+            Sprawdzone modele dla mieszkań, domów i&nbsp;gastronomii.
+            Doradzimy odpowiedni model do Twojej instalacji i&nbsp;zamontujemy.
           </p>
         </div>
 
