@@ -56,27 +56,58 @@ export default async function Image({
           }}
         />
 
+        {/* Logo: kropla + Aquarius (ten sam co w headerze) */}
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: 16,
-            fontSize: 28,
-            fontWeight: 600,
-            color: "#1e3a8a",
-            letterSpacing: 2,
-            textTransform: "uppercase",
+            alignItems: "flex-end",
+            color: "#0f1e4a",
           }}>
+          <svg
+            width="90"
+            height="90"
+            viewBox="0 0 24 24"
+            style={{ marginRight: -20, opacity: 0.85 }}>
+            <defs>
+              <linearGradient id="og-drop-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#e0f2fe" />
+                <stop offset="45%" stopColor="#7dd3fc" />
+                <stop offset="100%" stopColor="#0ea5e9" />
+              </linearGradient>
+              <radialGradient id="og-drop-hi" cx="35%" cy="30%" r="25%">
+                <stop offset="0%" stopColor="rgba(255,255,255,0.95)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+              </radialGradient>
+            </defs>
+            <path
+              d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z"
+              fill="url(#og-drop-grad)"
+            />
+            <ellipse cx="9" cy="9" rx="2" ry="3" fill="url(#og-drop-hi)" />
+          </svg>
           <div
             style={{
-              width: 14,
-              height: 14,
-              borderRadius: 9999,
-              background: "#1d4ed8",
               display: "flex",
-            }}
-          />
-          Aquarius · {city?.region ?? "Podkarpacie"}
+              alignItems: "baseline",
+              fontSize: 58,
+              fontWeight: 300,
+              marginBottom: 4,
+            }}>
+            A<span style={{ fontSize: 34, fontWeight: 600 }}>quarius</span>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              marginLeft: 24,
+              marginBottom: 16,
+              fontSize: 22,
+              fontWeight: 500,
+              color: "#1e3a8a",
+              letterSpacing: 2,
+              textTransform: "uppercase",
+            }}>
+            · {city?.region ?? "Podkarpacie"}
+          </div>
         </div>
 
         <div
