@@ -133,8 +133,8 @@ export default function Landing() {
       <SiteHeader />
 
       <section className="relative h-svh overflow-hidden">
-        {/* WIELKI PÓŁPRZEZROCZYSTY NAPIS - w tle, z animowanym gradientem. */}
-        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
+        {/* WIELKI PÓŁPRZEZROCZYSTY NAPIS - watermark w tle, za szklanką. */}
+        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden opacity-30">
           <span
             ref={heroBgTextRef}
             className="hero-bg-text-shimmer block w-full whitespace-nowrap text-center font-semibold uppercase tracking-tight text-[22vw] leading-none will-change-[opacity,transform,filter]">
