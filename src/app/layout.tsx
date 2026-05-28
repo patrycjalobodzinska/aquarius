@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Questrial } from "next/font/google";
+import { cities } from "@/lib/cities";
 import "./globals.css";
 
 const questrial = Questrial({
@@ -16,28 +17,30 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "Aquarius — Filtry wody i zmiękczacze | Czysta, mineralizowana woda z kranu",
+      "Aquarius Rzeszów — Zmiękczacze wody i filtry RO | Podkarpacie",
     template: "%s | Aquarius",
   },
   description:
-    "Filtry odwróconej osmozy, ultrafiltracja i zmiękczacze wody dla domu, mieszkania i gastronomii. Usuwamy do 99,9% zanieczyszczeń, przywracamy minerały i miękką wodę. Doradztwo, montaż, serwis w całej Polsce.",
+    "Zmiękczacze wody, filtry odwróconej osmozy i ultrafiltracja w Rzeszowie i na Podkarpaciu. Doradztwo, montaż i serwis w domach, mieszkaniach i lokalach gastronomicznych. Koniec z kamieniem i twardą wodą — czysta, mineralizowana woda z kranu.",
   applicationName: "Aquarius",
   authors: [{ name: "Aquarius" }],
   creator: "Aquarius",
   publisher: "Aquarius",
   keywords: [
-    "filtr wody",
-    "filtr odwróconej osmozy",
-    "filtr RO",
-    "zmiękczacz wody",
+    "zmiękczacz wody Rzeszów",
+    "filtr wody Rzeszów",
+    "filtr odwróconej osmozy Rzeszów",
+    "twarda woda Rzeszów",
+    "uzdatnianie wody Podkarpacie",
+    "zmiękczacz wody Podkarpacie",
+    "montaż zmiękczacza wody",
+    "serwis zmiękczacza wody",
+    "filtr RO pod zlew",
     "stacja zmiękczająca",
     "ultrafiltracja",
     "woda mineralizowana",
     "kamień w wodzie",
-    "filtr pod zlew",
-    "uzdatnianie wody",
-    "Aquarius",
-    "FitAqua",
+    "Aquarius Rzeszów",
   ],
   category: "shopping",
   formatDetection: {
@@ -57,9 +60,9 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: "Aquarius",
     title:
-      "Aquarius — Filtry wody i zmiękczacze | Czysta, mineralizowana woda z kranu",
+      "Aquarius Rzeszów — Zmiękczacze wody i filtry RO | Podkarpacie",
     description:
-      "Filtracja RO, ultrafiltracja i zmiękczanie wody. Do 99,9% mniej zanieczyszczeń, naturalna mineralizacja, koniec z butelkami i kamieniem.",
+      "Zmiękczacze wody, filtry RO i ultrafiltracja. Montaż i serwis w Rzeszowie oraz na całym Podkarpaciu. Koniec z twardą wodą i kamieniem.",
     images: [
       {
         url: "/hero-spash.jpg",
@@ -72,9 +75,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Aquarius — Filtry wody i zmiękczacze | Czysta woda z kranu",
+      "Aquarius Rzeszów — Zmiękczacze wody i filtry RO",
     description:
-      "Filtry RO, ultrafiltracja, zmiękczacze wody. Czysta i mineralizowana woda prosto z kranu.",
+      "Montaż i serwis zmiękczaczy oraz filtrów RO w Rzeszowie i na Podkarpaciu.",
     images: ["/hero-spash.jpg"],
   },
   robots: {
@@ -103,16 +106,46 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const organizationJsonLd = {
+// Service Area Business (mobilny serwis bez stacjonarnej siedziby).
+// Schema bez `address` / `geo` — zgodnie z zaleceniami Google dla SAB.
+// `areaServed` definiuje obszar obsługi.
+const localBusinessJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Aquarius",
+  "@type": "LocalBusiness",
+  "@id": `${SITE_URL}/#business`,
+  name: "Aquarius — zmiękczacze i filtry wody",
+  alternateName: "Aquarius Rzeszów",
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
+  image: `${SITE_URL}/hero-spash.jpg`,
   email: "januszlobodzinski.rzeszow70@gmail.com",
   telephone: "+48 513 001 600",
-  areaServed: "PL",
-  sameAs: [] as string[],
+  priceRange: "$$",
+  areaServed: [
+    {
+      "@type": "AdministrativeArea",
+      name: "województwo podkarpackie",
+    },
+    ...cities.map((c) => ({
+      "@type": "City" as const,
+      name: c.name,
+    })),
+  ],
+  serviceArea: {
+    "@type": "GeoCircle",
+    geoMidpoint: {
+      "@type": "GeoCoordinates",
+      latitude: 50.0413,
+      longitude: 21.9991,
+    },
+    geoRadius: 150000,
+  },
+  serviceType: [
+    "Montaż zmiękczaczy wody",
+    "Montaż filtrów odwróconej osmozy",
+    "Serwis stacji uzdatniania wody",
+    "Doradztwo i badanie wody",
+  ],
 };
 
 const websiteJsonLd = {
@@ -146,7 +179,7 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
+            __html: JSON.stringify(localBusinessJsonLd),
           }}
         />
         <script

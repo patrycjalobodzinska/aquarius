@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cities } from "@/lib/cities";
 import Logo from "./Logo";
 
 export default function SiteFooter() {
@@ -8,7 +9,7 @@ export default function SiteFooter() {
         <div>
           <Logo idSuffix="site-footer" />
           <p className="mt-3 text-sm text-slate-500">
-            Czysta woda dla polskich domów.
+            Uzdatnianie wody na Podkarpaciu. Mobilny serwis z dojazdem.
           </p>
         </div>
         <div>
@@ -37,8 +38,8 @@ export default function SiteFooter() {
           <div className="mb-3 text-sm font-medium text-blue-950">Strona</div>
           <ul className="space-y-2 text-sm text-slate-600">
             <li>
-              <Link href="/#problemy" className="hover:text-blue-700">
-                Problemy z wodą
+              <Link href="/obszar-obslugi" className="hover:text-blue-700">
+                Obszar obsługi
               </Link>
             </li>
             <li>
@@ -71,6 +72,30 @@ export default function SiteFooter() {
           </ul>
         </div>
       </div>
+
+      <div className="border-t border-sky-50">
+        <div className="mx-auto max-w-7xl px-6 py-8">
+          <div className="mb-3 text-xs font-medium uppercase tracking-wider text-sky-600">
+            Obsługujemy z dojazdem
+          </div>
+          <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-600">
+            {cities.map((c) => (
+              <Link
+                key={c.slug}
+                href={`/zmiekczacze-wody/${c.slug}`}
+                className="hover:text-blue-700">
+                {c.name}
+              </Link>
+            ))}
+            <Link
+              href="/obszar-obslugi"
+              className="font-medium text-blue-700 hover:underline">
+              i cała okolica →
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="border-t border-sky-50 py-6 text-center text-xs text-slate-500">
         © {new Date().getFullYear()} Aquarius — Wszystkie prawa zastrzeżone.
       </div>

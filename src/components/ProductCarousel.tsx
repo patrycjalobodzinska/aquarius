@@ -245,9 +245,8 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
       <div className="relative" style={{ perspective: "1200px" }}>
         <div
           ref={trackRef}
-          data-lenis-prevent
-          data-lenis-prevent-touch
           data-lenis-prevent-wheel
+          style={{ touchAction: "pan-x" }}
           className="product-carousel-track flex snap-x snap-proximity gap-1 overflow-x-auto overscroll-x-contain px-[16vw] pb-12 pt-4 [scrollbar-width:none] md:snap-mandatory md:gap-10 md:scroll-smooth md:px-0 lg:pb-16 lg:pt-12 [&::-webkit-scrollbar]:hidden">
           {looped.map((entry, i) => {
             const p = entry.product;

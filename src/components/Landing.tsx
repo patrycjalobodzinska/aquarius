@@ -10,6 +10,7 @@ import ProductsSection from "./ProductsSection";
 import TwoTracksSection from "./TwoTracksSection";
 import SofteningDeepDive from "./SofteningDeepDive";
 import ContactSection from "./ContactSection";
+import FaqSection from "./FaqSection";
 import SiteFooter from "./SiteFooter";
 import SiteHeader from "./SiteHeader";
 
@@ -303,6 +304,8 @@ export default function Landing() {
       <SofteningDeepDive />
 
       <ProductsSection kind="zmiekczacze" />
+
+      <FaqSection />
 
       <ContactSection />
 

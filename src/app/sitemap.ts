@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { cities } from "@/lib/cities";
 import { products } from "@/lib/products";
 
 const SITE_URL =
@@ -37,11 +38,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${SITE_URL}/obszar-obslugi`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
     ...products.map((p) => ({
       url: `${SITE_URL}/produkty/${p.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...cities.map((c) => ({
+      url: `${SITE_URL}/zmiekczacze-wody/${c.slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
   ];
 }
