@@ -198,12 +198,12 @@ export default function ObszarObslugiPage() {
           <div className="rounded-2xl border border-sky-100 bg-white p-6 shadow-sm">
             <div className="text-2xl font-semibold text-blue-950">3.</div>
             <h3 className="mt-2 text-lg font-semibold text-blue-950">
-              Zamawiamy i montujemy
+              Dostawa i montaż
             </h3>
             <p className="mt-2 text-sm text-slate-600">
-              Sprzęt zamawiamy u dostawcy, przyjeżdżamy na umówiony termin
-              i montujemy. Gwarancja producenta na urządzenie + gwarancja na
-              nasz montaż.
+              Po Twojej decyzji przyjeżdżamy na umówiony termin ze sprzętem
+              i montujemy. Gwarancja producenta na urządzenie + gwarancja
+              na nasz montaż.
             </p>
           </div>
         </section>
