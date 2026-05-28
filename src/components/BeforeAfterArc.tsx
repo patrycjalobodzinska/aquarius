@@ -181,7 +181,7 @@ export default function BeforeAfterArc() {
                 alt="Kuchnia z butelkami"
                 fill
                 sizes="45vw"
-                className="object-cover"
+                className="object-cover scale-110 origin-top-left"
                 style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
               />
             </div>
@@ -191,7 +191,7 @@ export default function BeforeAfterArc() {
                 alt="Woda z wirusami"
                 fill
                 sizes="45vw"
-                className="object-cover"
+                className="object-cover scale-110 origin-top-left"
                 style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
               />
             </div>
@@ -218,7 +218,7 @@ export default function BeforeAfterArc() {
                 alt="Czysta kuchnia"
                 fill
                 sizes="45vw"
-                className="object-cover"
+                className="object-cover scale-110 origin-top-left"
               />
             </div>
             <div className="relative aspect-[3/4] w-1/2 overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30">
@@ -227,7 +227,7 @@ export default function BeforeAfterArc() {
                 alt="Czysta woda z minerałami"
                 fill
                 sizes="45vw"
-                className="object-cover"
+                className="object-cover scale-110 origin-top-left"
               />
             </div>
           </div>
@@ -265,7 +265,7 @@ export default function BeforeAfterArc() {
               alt="Kuchnia z butelkami"
               fill
               sizes="(min-width: 1024px) 22vw, 320px"
-              className="object-cover"
+              className="object-cover scale-110 origin-top-left"
               style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
             />
           </div>
@@ -277,7 +277,7 @@ export default function BeforeAfterArc() {
               alt="Woda z wirusami"
               fill
               sizes="(min-width: 1024px) 22vw, 320px"
-              className="object-cover"
+              className="object-cover scale-110 origin-top-left"
               style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
             />
           </div>
@@ -292,7 +292,7 @@ export default function BeforeAfterArc() {
               alt="Czysta kuchnia"
               fill
               sizes="(min-width: 1024px) 22vw, 320px"
-              className="object-cover"
+              className="object-cover scale-110 origin-top-left"
             />
           </div>
           <div
@@ -303,7 +303,7 @@ export default function BeforeAfterArc() {
               alt="Czysta woda z minerałami"
               fill
               sizes="(min-width: 1024px) 22vw, 320px"
-              className="object-cover"
+              className="object-cover scale-110 origin-top-left"
             />
           </div>
         </div>
@@ -320,44 +320,9 @@ export default function BeforeAfterArc() {
             zostaje w domu.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            1 440 butelek rocznie, ~3 800 zł kaucji, kilometry tragania
-            z&nbsp;marketu. Do tego chlor, mikroplastik i pozostałości
-            farmaceutyków w&nbsp;kranówce.
+            1 440 butelek rocznie, ~3 800 zł kaucji, kilometry tragania z
+            marketu. Chlor, mikroplastik, wirusy.
           </p>
-
-          {/* Pille: co jest w wodzie z kranu / butelek */}
-          <div className="mt-5 flex flex-wrap gap-2 md:justify-start justify-center">
-            {["Chlor", "Mikroplastik", "Twarda woda", "Kamień", "Wirusy"].map(
-              (t) => (
-                <span
-                  key={t}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
-                  <span className="h-1 w-1 rounded-full bg-slate-500" />
-                  {t}
-                </span>
-              ),
-            )}
-          </div>
-
-          {/* Trzy twarde liczby: butelki / koszt / plastik */}
-          <div className="mt-5 grid grid-cols-3 gap-3 text-center md:text-left">
-            {[
-              { v: "1 440", l: "butelek / rok" },
-              { v: "3 800 zł", l: "kosztu / rok" },
-              { v: "12 kg", l: "plastiku / rok" },
-            ].map((s) => (
-              <div
-                key={s.l}
-                className="rounded-xl border border-slate-200 bg-white/70 px-3 py-2">
-                <div className="text-base font-semibold text-blue-950 md:text-lg">
-                  {s.v}
-                </div>
-                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-slate-500">
-                  {s.l}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         <div
@@ -372,45 +337,9 @@ export default function BeforeAfterArc() {
             Zero butelek.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Pięciostopniowa filtracja, woda wzbogacona minerałami, pH 7,2–7,8 —
-            prosto z&nbsp;kranu, bez plastiku i&nbsp;bez kaucji.
+            Pięciostopniowa filtracja, woda wzbogacona minerałami, pH 7.2–7.8 -
+            prosto z kranu, bez plastiku i bez kaucji.
           </p>
-
-          <div className="mt-5 flex flex-wrap gap-2 md:justify-start justify-center">
-            {[
-              "5 stopni filtracji",
-              "Mineralizacja",
-              "pH 7,2 – 7,8",
-              "Bez kaucji",
-              "Bez plastiku",
-            ].map((t) => (
-              <span
-                key={t}
-                className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-800">
-                <span className="h-1 w-1 rounded-full bg-blue-600" />
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div className="mt-5 grid grid-cols-3 gap-3 text-center md:text-left">
-            {[
-              { v: "99,9%", l: "mniej zanieczyszczeń" },
-              { v: "0 kg", l: "plastiku / rok" },
-              { v: "~2 lata", l: "membrana RO" },
-            ].map((s) => (
-              <div
-                key={s.l}
-                className="rounded-xl border border-sky-200 bg-white/80 px-3 py-2">
-                <div className="text-base font-semibold text-blue-950 md:text-lg">
-                  {s.v}
-                </div>
-                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-slate-500">
-                  {s.l}
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* PILLE - pojawiają się staggerem przy kolejnym scrollu po transferze. */}
