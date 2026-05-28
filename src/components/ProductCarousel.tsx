@@ -1,182 +1,268 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { type CSSProperties, useRef } from "react";
+import {
+  type CSSProperties,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { categories, formatPrice, type Product } from "@/lib/products";
 import { productHeroViewTransitionName } from "@/lib/productViewTransition";
 
+const CARD_W_DESKTOP = "clamp(260px, 28vw, 420px)";
+const CARD_GAP_DESKTOP = "24px";
+
 /**
- * Prosta, lekka karuzela: natywny CSS scroll-snap, bez GSAP, bez 3D,
- * bez filter:blur. `touch-action: pan-x` przepuszcza pionowy gest do
- * scrolla strony, `contain` izoluje paint, `content-visibility` pomija
- * kartę poza viewportem. Strzałki nawigują o jedną kartę na desktopie.
+ * Karuzela index-based: track translateX-uje się o całe karty.
+ * Lista x3 (tripled) — środkowy segment to "prawdziwe" karty, lewy/prawy
+ * to bufor do nieskończonej pętli. Po przejściu na skraj robimy silent
+ * jump z powrotem do środkowego segmentu (animate=false na 1 klatkę).
+ *
+ * touch-pan-y na trackingu: pionowy gest leci do scrolla strony,
+ * poziomy łapią touch handlery (handleTouchStart/Move/End) → go(±1).
  */
 export default function ProductCarousel({ items }: { items: Product[] }) {
   const router = useRouter();
-  const trackRef = useRef<HTMLDivElement>(null);
+  const len = items.length;
 
-  const scrollByCard = (dir: 1 | -1) => {
-    const el = trackRef.current;
-    if (!el) return;
-    const card = el.querySelector<HTMLElement>("[data-card]");
-    const gapStr = getComputedStyle(el).gap || "0px";
-    const gap = Number.parseFloat(gapStr.split(/\s+/)[0] || "0") || 24;
-    const step = card ? card.offsetWidth + gap : el.clientWidth * 0.9;
-    el.scrollBy({ left: dir * step, behavior: "smooth" });
+  const tripled = len > 0 ? [...items, ...items, ...items] : [];
+  const [index, setIndex] = useState(len);
+  const [animate, setAnimate] = useState(true);
+
+  const go = useCallback((d: 1 | -1) => {
+    setAnimate(true);
+    setIndex((i) => i + d);
+  }, []);
+
+  const handleTransitionEnd = () => {
+    if (len === 0) return;
+    if (index >= 2 * len) {
+      setAnimate(false);
+      setIndex(index - len);
+    } else if (index < len) {
+      setAnimate(false);
+      setIndex(index + len);
+    }
   };
 
-  if (items.length === 0) return null;
+  useEffect(() => {
+    if (!animate) {
+      const id = requestAnimationFrame(() => setAnimate(true));
+      return () => cancelAnimationFrame(id);
+    }
+  }, [animate]);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") go(1);
+      if (e.key === "ArrowLeft") go(-1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [go]);
+
+  // Touch swipe
+  const touchStartX = useRef<number | null>(null);
+  const touchDeltaX = useRef<number>(0);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchDeltaX.current = 0;
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current;
+  };
+  const handleTouchEnd = () => {
+    const dx = touchDeltaX.current;
+    touchStartX.current = null;
+    touchDeltaX.current = 0;
+    if (Math.abs(dx) < 40) return;
+    go(dx < 0 ? 1 : -1);
+  };
+
+  if (len === 0) return null;
 
   return (
-    <div className="relative">
+    <section className="relative w-full overflow-hidden">
       <div
-        ref={trackRef}
-        className="product-carousel-track flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-6 pb-10 pt-4 [scrollbar-width:none] md:scroll-smooth md:gap-8 md:px-12 [&::-webkit-scrollbar]:hidden"
-        style={{
-          touchAction: "pan-x",
-          contain: "content",
-          WebkitOverflowScrolling: "touch",
-        }}>
-        {items.map((p) => {
-          const href = `/produkty/${p.slug}`;
-          const vtStyle: CSSProperties & { viewTransitionName?: string } = {
-            viewTransitionName: productHeroViewTransitionName(p.slug),
-          };
-          return (
-            <Link
-              key={p.slug}
-              href={href}
-              prefetch
-              data-card
-              draggable={false}
-              onClick={(e) => {
-                e.preventDefault();
-                expandCardAndNavigate(e.currentTarget, () => router.push(href));
-              }}
-              className="group relative flex w-[78vw] shrink-0 snap-center flex-col overflow-hidden rounded-3xl border border-sky-100 bg-white shadow-[0_12px_30px_-15px_rgba(15,23,42,0.25)] transition-shadow sm:w-[46%] lg:w-[32%] xl:w-[24%]"
-              style={vtStyle}>
-              {p.badge && (
-                <span className="absolute left-4 top-4 z-10 rounded-full bg-blue-950 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white shadow-md">
-                  {p.badge}
-                </span>
-              )}
-              <div className="relative aspect-square w-full overflow-hidden bg-gradient-to-br from-sky-50 to-white">
-                <Image
-                  src={p.images[0]}
-                  alt={p.name}
-                  fill
-                  draggable={false}
-                  sizes="(min-width:1280px) 26vw, (min-width:1024px) 34vw, (min-width:640px) 46vw, 78vw"
-                  loading="lazy"
-                  className="object-contain p-6"
-                />
-              </div>
-              <div className="flex flex-1 flex-col p-5">
-                <div className="text-[11px] font-medium uppercase tracking-wider text-sky-600">
-                  {categories.find((c) => c.slug === p.category)?.label}
-                </div>
-                <h3 className="mt-1 text-base font-semibold leading-snug text-blue-950">
-                  {p.name}
-                </h3>
-                <p className="mt-1 line-clamp-2 text-sm text-slate-500">
-                  {p.short}
-                </p>
-                <div className="mt-4 flex items-end justify-between">
-                  <div>
-                    <div className="text-[11px] uppercase tracking-wider text-slate-400">
-                      Cena
+        className="relative z-10 w-full [--card-w:82vw] [--card-gap:14px] md:[--card-gap:var(--card-gap-md)] md:[--card-w:var(--card-w-md)]"
+        style={
+          {
+            ["--card-w-md" as string]: CARD_W_DESKTOP,
+            ["--card-gap-md" as string]: CARD_GAP_DESKTOP,
+          } as CSSProperties
+        }>
+        <div
+          className="relative h-[62vh] min-h-[520px] w-full touch-pan-y md:h-[66vh] md:min-h-[600px]"
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}>
+          <div
+            onTransitionEnd={handleTransitionEnd}
+            className="absolute left-0 top-1/2 flex h-[94%] -translate-y-1/2 items-center will-change-transform"
+            style={{
+              gap: "var(--card-gap)",
+              transform: `translateX(calc(50vw - var(--card-w) / 2 - ${index} * (var(--card-w) + var(--card-gap))))`,
+              transition: animate
+                ? "transform 720ms cubic-bezier(0.22, 1, 0.36, 1)"
+                : "none",
+            }}>
+            {tripled.map((item, i) => {
+              const isActive = i === index;
+              const isMiddleSegment = i >= len && i < 2 * len;
+              const categoryLabel = categories.find(
+                (c) => c.slug === item.category,
+              )?.label;
+              const handleClick = () => {
+                if (!isActive) {
+                  setAnimate(true);
+                  setIndex(i);
+                  return;
+                }
+                router.push(`/produkty/${item.slug}`);
+              };
+              const vtStyle: CSSProperties & {
+                viewTransitionName?: string;
+              } = isMiddleSegment
+                ? {
+                    viewTransitionName: productHeroViewTransitionName(
+                      item.slug,
+                    ),
+                  }
+                : {};
+
+              return (
+                <article
+                  key={`${item.slug}-${i}`}
+                  onClick={handleClick}
+                  className="relative h-full shrink-0 cursor-pointer overflow-hidden rounded-3xl border border-sky-100 bg-white transition-all duration-700 ease-out"
+                  style={{
+                    width: "var(--card-w)",
+                    transform: isActive ? "scale(1)" : "scale(0.88)",
+                    transformOrigin: "center",
+                    zIndex: isActive ? 2 : 1,
+                    opacity: isActive ? 1 : 0.72,
+                    boxShadow: isActive
+                      ? "0 30px 70px -28px rgba(15,42,80,0.32)"
+                      : "0 14px 40px -22px rgba(15,42,80,0.15)",
+                  }}>
+                  <div className="flex h-full flex-col">
+                    <div
+                      className="relative w-full flex-1 overflow-hidden bg-gradient-to-br from-sky-50 to-white"
+                      style={vtStyle}>
+                      <Image
+                        src={item.images[0]}
+                        alt={item.name}
+                        fill
+                        sizes="(max-width: 768px) 82vw, 28vw"
+                        className="object-contain p-6"
+                        loading={isActive ? "eager" : "lazy"}
+                        priority={isActive && isMiddleSegment}
+                      />
+                      {item.badge && (
+                        <span className="absolute left-4 top-4 z-10 rounded-full bg-blue-950 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white shadow-md">
+                          {item.badge}
+                        </span>
+                      )}
                     </div>
-                    <div className="text-lg font-semibold text-blue-950">
-                      {formatPrice(p.price)}
+
+                    <div className="flex flex-col gap-1 p-5">
+                      {categoryLabel && (
+                        <div className="text-[11px] font-medium uppercase tracking-wider text-sky-600">
+                          {categoryLabel}
+                        </div>
+                      )}
+                      <h3 className="text-base font-semibold leading-snug text-blue-950">
+                        {item.name}
+                      </h3>
+                      <p className="line-clamp-2 text-sm text-slate-500">
+                        {item.short}
+                      </p>
+                      <div className="mt-3 flex items-end justify-between">
+                        <div>
+                          <div className="text-[11px] uppercase tracking-wider text-slate-400">
+                            Cena
+                          </div>
+                          <div className="text-lg font-semibold text-blue-950">
+                            {formatPrice(item.price)}
+                          </div>
+                        </div>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-blue-950 px-3 py-2 text-xs font-medium text-white">
+                          Zobacz
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-3 w-3"
+                            fill="currentColor">
+                            <path d="M13 5l7 7-7 7-1.4-1.4L16.2 13H4v-2h12.2l-4.6-4.6z" />
+                          </svg>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-blue-950 px-3 py-2 text-xs font-medium text-white transition group-hover:bg-blue-800">
-                    Zobacz
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="h-3 w-3"
-                      fill="currentColor">
-                      <path d="M13 5l7 7-7 7-1.4-1.4L16.2 13H4v-2h12.2l-4.6-4.6z" />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-            </Link>
-          );
-        })}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="relative mx-auto mt-6 flex w-full max-w-[1100px] flex-col items-center gap-5 px-6 md:mt-10">
+          {/* Mobile dots */}
+          <div className="flex items-center gap-1.5 md:hidden" aria-hidden>
+            {Array.from({ length: len }).map((_, i) => {
+              const active = ((index % len) + len) % len === i;
+              return (
+                <span
+                  key={i}
+                  className="block rounded-full transition-all duration-300"
+                  style={{
+                    width: active ? "20px" : "6px",
+                    height: "6px",
+                    background: active
+                      ? "#1e3a8a"
+                      : "rgba(30,58,138,0.22)",
+                  }}
+                />
+              );
+            })}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label="Poprzedni"
+              className="grid h-12 w-12 place-items-center rounded-full border border-blue-950/20 text-blue-950/70 transition hover:border-blue-950/60 hover:text-blue-950">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M19 12H5M5 12l6-6M5 12l6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label="Następny"
+              className="grid h-12 w-12 place-items-center rounded-full bg-blue-950 text-white transition hover:bg-blue-800">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M5 12h14M19 12l-6-6M19 12l-6 6"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
-
-      <button
-        type="button"
-        aria-label="Poprzedni"
-        onClick={() => scrollByCard(-1)}
-        className="absolute left-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-sky-100 bg-white/90 text-blue-950 shadow-xl backdrop-blur-md transition hover:scale-110 hover:bg-white sm:flex md:left-8">
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-          <path d="M15 6l-6 6 6 6 1.4-1.4L11.8 12l4.6-4.6z" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        aria-label="Następny"
-        onClick={() => scrollByCard(1)}
-        className="absolute right-4 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-sky-100 bg-white/90 text-blue-950 shadow-xl backdrop-blur-md transition hover:scale-110 hover:bg-white sm:flex md:right-8">
-        <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
-          <path d="M9 6l6 6-6 6-1.4-1.4L12.2 12 7.6 7.4z" />
-        </svg>
-      </button>
-    </div>
+    </section>
   );
-}
-
-// Klik karty rozciąga jej kontur na cały viewport (overlay), potem przekazuje
-// nawigację. Efekt jednorazowy — nie wpływa na koszt scrolla.
-function expandCardAndNavigate(card: HTMLElement, navigate: () => void) {
-  if (typeof document === "undefined") {
-    navigate();
-    return;
-  }
-  const rect = card.getBoundingClientRect();
-  const overlay = document.createElement("div");
-  Object.assign(overlay.style, {
-    position: "fixed",
-    left: `${rect.left}px`,
-    top: `${rect.top}px`,
-    width: `${rect.width}px`,
-    height: `${rect.height}px`,
-    background: "#ffffff",
-    borderRadius: "24px",
-    zIndex: "9998",
-    pointerEvents: "none",
-    boxShadow: "0 30px 70px -30px rgba(15,23,42,0.35)",
-    transition:
-      "left .5s cubic-bezier(0.7,0,0.25,1), top .5s cubic-bezier(0.7,0,0.25,1), width .5s cubic-bezier(0.7,0,0.25,1), height .5s cubic-bezier(0.7,0,0.25,1), border-radius .5s cubic-bezier(0.7,0,0.25,1)",
-    willChange: "left, top, width, height, border-radius",
-  } as CSSStyleDeclaration);
-  document.body.appendChild(overlay);
-
-  const img = card.querySelector("img");
-  if (img) {
-    img.style.transition = "opacity .25s ease";
-    img.style.opacity = "0";
-  }
-
-  void overlay.offsetWidth;
-  Object.assign(overlay.style, {
-    left: "0px",
-    top: "0px",
-    width: "100vw",
-    height: "100vh",
-    borderRadius: "0px",
-  });
-
-  window.setTimeout(() => {
-    navigate();
-    window.setTimeout(() => {
-      overlay.style.transition = "opacity .3s ease";
-      overlay.style.opacity = "0";
-      window.setTimeout(() => overlay.remove(), 350);
-    }, 100);
-  }, 510);
 }
