@@ -32,7 +32,9 @@ export default function SiteHeader() {
   }, []);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 border-b border-white/30 bg-white/40 backdrop-blur-md">
+    <header
+      className="fixed left-0 right-0 top-0 z-50 border-b border-sky-100/60 bg-white/85"
+      style={{ willChange: "transform", transform: "translateZ(0)" }}>
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <Link
           href="/"
@@ -76,7 +78,7 @@ export default function SiteHeader() {
 
       <div
         id="mobile-nav"
-        className={`md:hidden grid overflow-hidden border-t border-white/30 bg-white/90 backdrop-blur-md transition-[grid-template-rows] duration-300 ease-out ${
+        className={`md:hidden grid overflow-hidden border-t border-sky-100/60 bg-white transition-[grid-template-rows] duration-300 ease-out ${
           open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
         }`}>
         <div className="overflow-hidden">

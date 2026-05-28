@@ -43,8 +43,6 @@ export default function ProductCarousel({ items }: { items: Product[] }) {
           const href = `/produkty/${p.slug}`;
           const vtStyle: CSSProperties & { viewTransitionName?: string } = {
             viewTransitionName: productHeroViewTransitionName(p.slug),
-            contentVisibility: "auto" as CSSProperties["contentVisibility"],
-            containIntrinsicSize: "320px 480px",
           };
           return (
             <Link
