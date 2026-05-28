@@ -161,7 +161,7 @@ export default async function CityPage({
   };
 
   return (
-    <div className="relative overflow-x-clip text-slate-800">
+    <div className="relative flex min-h-screen flex-col overflow-x-clip text-slate-800">
       <SmoothScroll />
       <div
         aria-hidden
@@ -186,7 +186,7 @@ export default async function CityPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
 
-      <main className="mx-auto max-w-5xl px-6 pb-24 pt-28 md:pt-36">
+      <main className="mx-auto w-full max-w-5xl flex-1 px-6 pb-24 pt-28 md:pt-36">
         <nav className="mb-6 text-sm text-slate-500">
           <Link href="/" className="hover:text-blue-950">
             Strona główna
