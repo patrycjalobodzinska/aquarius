@@ -256,53 +256,53 @@ export default function BeforeAfterArc() {
         ref={stageRef}
         className="sticky top-0 hidden h-screen w-full overflow-hidden md:block">
         {/* BEFORE + AFTER po lewej, te same rest-pozycje. */}
-        <div className="absolute left-0 top-[58%] z-0 flex -translate-y-1/2 items-center gap-3 px-4 md:left-0 md:top-[36%] md:gap-6 md:pl-28 md:pr-0 lg:pl-40">
+        <div className="absolute left-0 top-[58%] z-0 flex -translate-y-1/2 items-center gap-3 px-4 md:left-0 md:top-[36%] md:gap-6 md:pl-20 md:pr-0 lg:pl-28">
           <div
             ref={before1Ref}
-            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/40 will-change-transform md:aspect-auto md:h-[60vh] md:w-[18vw] md:min-w-[180px] md:max-w-[260px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
+            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/40 will-change-transform md:aspect-auto md:h-[64vh] md:w-[22vw] md:min-w-[200px] md:max-w-[320px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
             <Image
               src={BEFORE_1}
               alt="Kuchnia z butelkami"
               fill
-              sizes="(min-width: 1024px) 18vw, 260px"
+              sizes="(min-width: 1024px) 22vw, 320px"
               className="object-cover"
               style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
             />
           </div>
           <div
             ref={before2Ref}
-            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/40 will-change-transform md:aspect-auto md:h-[60vh] md:w-[18vw] md:min-w-[180px] md:max-w-[260px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
+            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/40 will-change-transform md:aspect-auto md:h-[64vh] md:w-[22vw] md:min-w-[200px] md:max-w-[320px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
             <Image
               src={BEFORE_2}
               alt="Woda z wirusami"
               fill
-              sizes="(min-width: 1024px) 18vw, 260px"
+              sizes="(min-width: 1024px) 22vw, 320px"
               className="object-cover"
               style={{ filter: "grayscale(1) brightness(0.85) contrast(0.95)" }}
             />
           </div>
         </div>
 
-        <div className="absolute left-0 top-[58%] z-0 flex -translate-y-1/2 items-center gap-3 px-4 md:left-0 md:top-[36%] md:gap-6 md:pl-28 md:pr-0 lg:pl-40">
+        <div className="absolute left-0 top-[58%] z-0 flex -translate-y-1/2 items-center gap-3 px-4 md:left-0 md:top-[36%] md:gap-6 md:pl-20 md:pr-0 lg:pl-28">
           <div
             ref={after1Ref}
-            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30 will-change-transform md:aspect-auto md:h-[60vh] md:w-[18vw] md:min-w-[180px] md:max-w-[260px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
+            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30 will-change-transform md:aspect-auto md:h-[64vh] md:w-[22vw] md:min-w-[200px] md:max-w-[320px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
             <Image
               src={AFTER_1}
               alt="Czysta kuchnia"
               fill
-              sizes="(min-width: 1024px) 18vw, 260px"
+              sizes="(min-width: 1024px) 22vw, 320px"
               className="object-cover"
             />
           </div>
           <div
             ref={after2Ref}
-            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30 will-change-transform md:aspect-auto md:h-[60vh] md:w-[18vw] md:min-w-[180px] md:max-w-[260px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
+            className="relative aspect-[3/4] h-[36vh] w-auto overflow-hidden rounded-2xl border-[4px] border-white shadow-xl shadow-blue-950/30 will-change-transform md:aspect-auto md:h-[64vh] md:w-[22vw] md:min-w-[200px] md:max-w-[320px] md:rounded-3xl md:border-[6px] md:shadow-2xl">
             <Image
               src={AFTER_2}
               alt="Czysta woda z minerałami"
               fill
-              sizes="(min-width: 1024px) 18vw, 260px"
+              sizes="(min-width: 1024px) 22vw, 320px"
               className="object-cover"
             />
           </div>
@@ -310,7 +310,7 @@ export default function BeforeAfterArc() {
 
         <div
           ref={text1Ref}
-          className="pointer-events-none absolute left-1/2 top-[18%] z-10 w-[90vw] max-w-sm -translate-x-1/2 px-4 text-center will-change-[transform,opacity] md:left-auto md:right-[12%] md:top-[36%] md:w-auto md:-translate-x-0 md:-translate-y-1/2 md:px-0 md:text-left">
+          className="pointer-events-none absolute left-1/2 top-[18%] z-10 w-[90vw] max-w-sm -translate-x-1/2 px-4 text-center will-change-[transform,opacity] md:left-auto md:right-[8%] md:top-[36%] md:w-auto md:max-w-md md:-translate-x-0 md:-translate-y-1/2 md:px-0 md:text-left">
           <div className="mb-3 inline-block rounded-full bg-blue-950 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-white">
             Teraz
           </div>
@@ -320,14 +320,49 @@ export default function BeforeAfterArc() {
             zostaje w domu.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            1 440 butelek rocznie, ~3 800 zł kaucji, kilometry tragania z
-            marketu. Chlor, mikroplastik, wirusy.
+            1 440 butelek rocznie, ~3 800 zł kaucji, kilometry tragania
+            z&nbsp;marketu. Do tego chlor, mikroplastik i pozostałości
+            farmaceutyków w&nbsp;kranówce.
           </p>
+
+          {/* Pille: co jest w wodzie z kranu / butelek */}
+          <div className="mt-5 flex flex-wrap gap-2 md:justify-start justify-center">
+            {["Chlor", "Mikroplastik", "Twarda woda", "Kamień", "Wirusy"].map(
+              (t) => (
+                <span
+                  key={t}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-slate-300 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-700">
+                  <span className="h-1 w-1 rounded-full bg-slate-500" />
+                  {t}
+                </span>
+              ),
+            )}
+          </div>
+
+          {/* Trzy twarde liczby: butelki / koszt / plastik */}
+          <div className="mt-5 grid grid-cols-3 gap-3 text-center md:text-left">
+            {[
+              { v: "1 440", l: "butelek / rok" },
+              { v: "3 800 zł", l: "kosztu / rok" },
+              { v: "12 kg", l: "plastiku / rok" },
+            ].map((s) => (
+              <div
+                key={s.l}
+                className="rounded-xl border border-slate-200 bg-white/70 px-3 py-2">
+                <div className="text-base font-semibold text-blue-950 md:text-lg">
+                  {s.v}
+                </div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-slate-500">
+                  {s.l}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div
           ref={text2Ref}
-          className="pointer-events-none absolute left-1/2 top-[18%] z-10 w-[90vw] max-w-sm -translate-x-1/2 px-4 text-center will-change-[transform,opacity] md:left-auto md:right-[12%] md:top-[36%] md:w-auto md:-translate-x-0 md:-translate-y-1/2 md:px-0 md:text-left">
+          className="pointer-events-none absolute left-1/2 top-[18%] z-10 w-[90vw] max-w-sm -translate-x-1/2 px-4 text-center will-change-[transform,opacity] md:left-auto md:right-[8%] md:top-[36%] md:w-auto md:max-w-md md:-translate-x-0 md:-translate-y-1/2 md:px-0 md:text-left">
           <div className="mb-3 inline-block rounded-full bg-blue-700 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-white">
             Z filtrem
           </div>
@@ -337,9 +372,45 @@ export default function BeforeAfterArc() {
             Zero butelek.
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Pięciostopniowa filtracja, woda wzbogacona minerałami, pH 7.2–7.8 -
-            prosto z kranu, bez plastiku i bez kaucji.
+            Pięciostopniowa filtracja, woda wzbogacona minerałami, pH 7,2–7,8 —
+            prosto z&nbsp;kranu, bez plastiku i&nbsp;bez kaucji.
           </p>
+
+          <div className="mt-5 flex flex-wrap gap-2 md:justify-start justify-center">
+            {[
+              "5 stopni filtracji",
+              "Mineralizacja",
+              "pH 7,2 – 7,8",
+              "Bez kaucji",
+              "Bez plastiku",
+            ].map((t) => (
+              <span
+                key={t}
+                className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-blue-800">
+                <span className="h-1 w-1 rounded-full bg-blue-600" />
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <div className="mt-5 grid grid-cols-3 gap-3 text-center md:text-left">
+            {[
+              { v: "99,9%", l: "mniej zanieczyszczeń" },
+              { v: "0 kg", l: "plastiku / rok" },
+              { v: "~2 lata", l: "membrana RO" },
+            ].map((s) => (
+              <div
+                key={s.l}
+                className="rounded-xl border border-sky-200 bg-white/80 px-3 py-2">
+                <div className="text-base font-semibold text-blue-950 md:text-lg">
+                  {s.v}
+                </div>
+                <div className="mt-0.5 text-[10px] uppercase tracking-wider text-slate-500">
+                  {s.l}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* PILLE - pojawiają się staggerem przy kolejnym scrollu po transferze. */}
