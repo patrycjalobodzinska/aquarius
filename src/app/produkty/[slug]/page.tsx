@@ -47,14 +47,7 @@ export async function generateMetadata({
       title,
       description,
       images: p.images.length
-        ? [
-            {
-              url: p.images[0],
-              width: 1200,
-              height: 1200,
-              alt: p.name,
-            },
-          ]
+        ? [{ url: p.images[0], alt: p.name }]
         : undefined,
     },
     twitter: {

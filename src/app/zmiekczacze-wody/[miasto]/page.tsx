@@ -133,6 +133,7 @@ export default async function CityPage({
     name: city.softenerRecommended
       ? `Zmiękczacze wody ${city.name}`
       : `Uzdatnianie wody ${city.name}`,
+    image: `${SITE_URL}/zmiekczacze-wody/${city.slug}/opengraph-image`,
     serviceType: "Doradztwo i montaż systemów uzdatniania wody",
     provider: {
       "@type": "LocalBusiness",

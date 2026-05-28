@@ -59,26 +59,17 @@ export const metadata: Metadata = {
     locale: "pl_PL",
     url: SITE_URL,
     siteName: "Aquarius",
-    title:
-      "Aquarius Rzeszów — Zmiękczacze wody i filtry RO | Podkarpacie",
+    title: "Aquarius Rzeszów — Zmiękczacze wody i filtry RO | Podkarpacie",
     description:
       "Zmiękczacze wody, filtry RO i ultrafiltracja. Doradzimy i zamontujemy w Rzeszowie i na całym Podkarpaciu.",
-    images: [
-      {
-        url: "/hero-spash.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Czysta, mineralizowana woda Aquarius",
-      },
-    ],
+    // OG image generowany dynamicznie przez src/app/opengraph-image.tsx
+    // — Next dołączy go automatycznie do <head>.
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Aquarius Rzeszów — Zmiękczacze wody i filtry RO",
+    title: "Aquarius Rzeszów — Zmiękczacze wody i filtry RO",
     description:
       "Doradztwo i montaż zmiękczaczy oraz filtrów RO w Rzeszowie i na Podkarpaciu.",
-    images: ["/hero-spash.jpg"],
   },
   robots: {
     index: true,
@@ -117,7 +108,7 @@ const localBusinessJsonLd = {
   alternateName: "Aquarius Rzeszów",
   url: SITE_URL,
   logo: `${SITE_URL}/icon.svg`,
-  image: `${SITE_URL}/hero-spash.jpg`,
+  image: `${SITE_URL}/opengraph-image`,
   email: "januszlobodzinski.rzeszow70@gmail.com",
   telephone: "+48 513 001 600",
   priceRange: "$$",
