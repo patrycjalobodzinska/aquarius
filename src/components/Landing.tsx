@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
-import HeroSideBadges from "./HeroSideBadges";
+import Image from "next/image";
+import { useEffect, useRef } from "react";
 import FeaturesSketch from "./FeaturesSketch";
 import MineralsSection from "./MineralsSection";
 import BeforeAfterArc from "./BeforeAfterArc";
@@ -21,16 +21,9 @@ const PageAnimations = dynamic(
 
 export default function Landing() {
   const heroTextRef = useRef<HTMLDivElement>(null);
-  const heroBgTextRef = useRef<HTMLSpanElement>(null);
-  const heroBadgesRef = useRef<HTMLDivElement>(null);
+  const heroImageRef = useRef<HTMLDivElement>(null);
   const ribbonRef = useRef<HTMLDivElement>(null);
   const ribbonTextPathRef = useRef<SVGTextPathElement>(null);
-
-  const [badgesVisible, setBadgesVisible] = useState(false);
-  useEffect(() => {
-    const t = window.setTimeout(() => setBadgesVisible(true), 1200);
-    return () => window.clearTimeout(t);
-  }, []);
 
   // Po każdym (re)mount-cie wymuszamy scroll na samą górę - browser bez tego
   // odtwarza pozycję po F5, a my właśnie pokazujemy hero od zera.
@@ -81,19 +74,11 @@ export default function Landing() {
       if (el) {
         el.style.opacity = String(fade);
         el.style.transform = `translate3d(${-60 * t}px, 0, 0) scale(${1 - 0.15 * t})`;
-        el.style.filter = `blur(${t * 4}px)`;
       }
-      const bg = heroBgTextRef.current;
-      if (bg) {
-        bg.style.opacity = String(fade);
-        bg.style.transform = `scale(${1 - 0.08 * t})`;
-        bg.style.filter = `blur(${t * 6}px)`;
-      }
-      const badges = heroBadgesRef.current;
-      if (badges) {
-        badges.style.opacity = String(fade);
-        badges.style.transform = `translate3d(${30 * t}px, -50%, 0)`;
-        badges.style.filter = `blur(${t * 4}px)`;
+      const img = heroImageRef.current;
+      if (img) {
+        img.style.opacity = String(fade);
+        img.style.transform = `translate3d(${30 * t}px, 0, 0) scale(${1 - 0.08 * t})`;
       }
     };
     onScroll();
@@ -126,75 +111,41 @@ export default function Landing() {
       <SiteHeader />
 
       <section className="relative h-svh overflow-hidden">
-        {/* WIELKI PÓŁPRZEZROCZYSTY NAPIS - w tle, z animowanym gradientem. */}
-        <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center overflow-hidden">
-          <span
-            ref={heroBgTextRef}
-            className="hero-bg-text-shimmer block w-full whitespace-nowrap text-center font-semibold uppercase tracking-tight text-[22vw] leading-none will-change-[opacity,transform,filter]">
-            Aquarius
-          </span>
+        {/* Ambient glow za szklanką */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center md:justify-end md:pr-[8%]">
+          <div
+            className="h-[70vh] w-[70vh] max-h-[700px] max-w-[700px] rounded-full blur-3xl hero-glow-pulse"
+            style={{
+              background:
+                "radial-gradient(circle at 50% 45%, rgba(190,225,255,0.55) 0%, rgba(125,211,252,0.25) 30%, rgba(125,211,252,0.08) 55%, transparent 75%)",
+              transform: "translateY(-4vh)",
+            }}
+          />
         </div>
 
-        <div className="absolute inset-0 z-0">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <div
-              className="h-[70vh] w-[70vh] max-h-[700px] max-w-[700px] rounded-full blur-3xl hero-glow-pulse"
-              style={{
-                background:
-                  "radial-gradient(circle at 50% 45%, rgba(190,225,255,0.55) 0%, rgba(125,211,252,0.25) 30%, rgba(125,211,252,0.08) 55%, transparent 75%)",
-                transform: "translateY(-4vh)",
-              }}
+        {/* Szklanka — na mobile za tekstem (większa, prawa krawędź wystaje
+            poza viewport), na desktopie po prawej w siatce 2-kolumnowej. */}
+        <div
+          ref={heroImageRef}
+          aria-hidden
+          className="pointer-events-none absolute inset-y-0 right-[-25%] z-[5] flex w-[110%] items-center opacity-50 md:opacity-100 md:right-0 md:w-1/2 md:justify-center">
+          <div className="relative h-[70%] w-full md:h-[85%]">
+            <Image
+              src="/water-glass.webp"
+              alt=""
+              fill
+              priority
+              sizes="(min-width:1024px) 45vw, 110vw"
+              className="object-contain object-center"
             />
           </div>
         </div>
 
-        {/* Pływające krople-dekoracje - widoczne głównie na mobile, gdzie nie
-            ma side-badges po prawej. Na desktopie zostają jako subtelny akcent. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 z-[5] overflow-hidden">
-          <svg
-            className="hero-drop-a absolute right-[6%] top-[14%] h-14 w-14 text-sky-400/70 md:right-[12%] md:top-[18%] md:h-16 md:w-16"
-            viewBox="0 0 24 24"
-            fill="currentColor">
-            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
-            <path
-              d="M9 14c0 2 1.5 3.5 3.5 3.5"
-              stroke="white"
-              strokeWidth="1.2"
-              fill="none"
-              opacity="0.7"
-            />
-          </svg>
-          <svg
-            className="hero-drop-b absolute right-[22%] top-[42%] h-9 w-9 text-blue-500/60 md:right-[28%] md:top-[58%] md:h-10 md:w-10"
-            viewBox="0 0 24 24"
-            fill="currentColor">
-            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
-          </svg>
-          <svg
-            className="hero-drop-c absolute right-[12%] top-[62%] h-6 w-6 text-cyan-400/70 md:right-[18%] md:top-[32%] md:h-8 md:w-8"
-            viewBox="0 0 24 24"
-            fill="currentColor">
-            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
-          </svg>
-          <svg
-            className="hero-drop-a absolute right-[34%] top-[24%] h-5 w-5 text-blue-400/70 md:hidden"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            style={{ animationDelay: "1.8s" }}>
-            <path d="M12 2c3.5 4.5 7 9 7 13a7 7 0 0 1-14 0c0-4 3.5-8.5 7-13z" />
-          </svg>
-
-        </div>
-
-        <HeroSideBadges ref={heroBadgesRef} visible={badgesVisible} />
-
         <div
           ref={heroTextRef}
-          className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 will-change-[opacity,transform,filter]"
+          className="relative z-10 mx-auto flex h-full max-w-7xl items-center px-6 will-change-[opacity,transform]"
           style={{ transformOrigin: "left center" }}>
           <div className="max-w-lg">
             <h1
@@ -230,7 +181,7 @@ export default function Landing() {
               </a>
               <a
                 href="/kontakt"
-                className="inline-flex items-center gap-2 rounded-full border border-blue-950/15 bg-white/60 px-6 py-3 text-sm font-semibold text-blue-950 backdrop-blur-sm transition hover:bg-white">
+                className="inline-flex items-center gap-2 rounded-full border border-blue-950/15 bg-white/60 px-6 py-3 text-sm font-semibold text-blue-950 transition hover:bg-white">
                 Porozmawiajmy
               </a>
             </div>
