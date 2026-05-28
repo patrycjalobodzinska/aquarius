@@ -1,12 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import ProductCarousel from "@/components/ProductCarousel";
 import ProductDetailHero from "@/components/ProductDetailHero";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import SmoothScroll from "@/components/SmoothScroll";
-import { categories, formatPrice, getProduct, getRelated, products } from "@/lib/products";
+import { categories, getProduct, products } from "@/lib/products";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -68,7 +68,15 @@ export default async function ProductPage({
   const product = getProduct(slug);
   if (!product) notFound();
 
-  const related = getRelated(product, 4);
+  // Pełna karuzela: najpierw inne modele z tej samej kategorii,
+  // potem reszta oferty.
+  const sameCategory = products.filter(
+    (p) => p.slug !== product.slug && p.category === product.category,
+  );
+  const otherCategories = products.filter(
+    (p) => p.slug !== product.slug && p.category !== product.category,
+  );
+  const related = [...sameCategory, ...otherCategories];
 
   const siteUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://aquarius.craftedweb.pl";
@@ -195,55 +203,28 @@ export default async function ProductPage({
           </aside>
         </div>
 
-        {related.length > 0 && (
-          <div className="mt-32">
-            <div className="flex items-end justify-between">
-              <div>
-                <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-blue-700">
-                  Podobne produkty
-                </div>
-                <h2 className="mt-3 text-3xl font-semibold tracking-tight text-blue-950 md:text-4xl">
-                  Inne modele z naszej oferty
-                </h2>
-              </div>
-              <Link
-                href="/produkty"
-                className="text-sm font-medium text-blue-700 hover:underline">
-                Zobacz wszystkie →
-              </Link>
-            </div>
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {related.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={`/produkty/${p.slug}`}
-                  className="group block">
-                  <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-white ring-1 ring-sky-100">
-                    <Image
-                      src={p.images[0]}
-                      alt={p.name}
-                      fill
-                      sizes="(min-width:1024px) 22vw, 45vw"
-                      className="object-contain p-6 transition duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="mt-4">
-                    <div className="text-base font-semibold text-blue-950">
-                      {p.name}
-                    </div>
-                    <div className="mt-1 text-sm text-slate-500 line-clamp-1">
-                      {p.short}
-                    </div>
-                    <div className="mt-2 text-base font-semibold text-blue-950">
-                      {formatPrice(p.price)}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
       </main>
+
+      {related.length > 0 && (
+        <section className="mt-16 md:mt-24">
+          <div className="mx-auto mb-8 flex max-w-7xl flex-wrap items-end justify-between gap-4 px-6">
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.28em] text-blue-700">
+                Podobne produkty
+              </div>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight text-blue-950 md:text-4xl">
+                Inne modele z naszej oferty
+              </h2>
+            </div>
+            <Link
+              href="/produkty"
+              className="text-sm font-medium text-blue-700 hover:underline">
+              Zobacz wszystkie →
+            </Link>
+          </div>
+          <ProductCarousel items={related} />
+        </section>
+      )}
 
       <SiteFooter />
     </div>
